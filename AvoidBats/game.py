@@ -17,6 +17,7 @@ def game_loop():
 # Configuration et lancement du jeu
 def main() :
     pygame.init()
+    GameConfig.init()
 
     window = pygame.display.set_mode((GameConfig.WINDOW_W,GameConfig.WINDOW_H))
     pygame.display.set_caption("Avoid Bats")

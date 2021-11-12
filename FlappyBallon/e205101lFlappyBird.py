@@ -1,5 +1,6 @@
 import pygame
 import time
+import os
 from random import *
 
 class GameConfig:
@@ -7,15 +8,15 @@ class GameConfig:
     windowH = 500
     blue = (113,177,227)
     white = (255,255,255)
-    imgBalloon = pygame.image.load('Balloon.png')
+    imgBalloon = pygame.image.load(os.path.join('FlappyBallon/assets', 'Balloon.png'))
     balloonW = 50
     balloonH = 66
-    imgUpperCloud = pygame.image.load('UpperCloud.png')
-    imgLowerCloud = pygame.image.load('LowerCloud.png')
+    imgUpperCloud = pygame.image.load(os.path.join('FlappyBallon/assets', 'UpperCloud.png'))
+    imgLowerCloud = pygame.image.load(os.path.join('FlappyBallon/assets', 'LowerCloud.png'))
     cloudW = 300
     cloudH = 300
     def displayMessage(window,text,fontSize,x,y) :
-        font = pygame.font.Font('BradBunR.ttf',fontSize)
+        font = pygame.font.Font(os.path.join('FlappyBallon/assets', 'BradBunR.ttf'),fontSize)
         img = font.render(text,True,GameConfig.white)
         displayRect = img.get_rect()
         displayRect.center=(x,y)

@@ -8,7 +8,7 @@ import os
 
 
 class GameConfig :
-    ASSET_FOLDER = 'AvoidBats/assets'
+    ASSET_FOLDER = os.path.join('AvoidBats', 'assets')
 
     # Dimensions fenêtre
     WINDOW_H = 640

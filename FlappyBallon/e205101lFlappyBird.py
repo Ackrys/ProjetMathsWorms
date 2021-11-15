@@ -16,7 +16,7 @@ class GameConfig:
     cloudW = 300
     cloudH = 300
     def displayMessage(window,text,fontSize,x,y) :
-        font = pygame.font.Font(os.path.join('FlappyBallon/assets', 'BradBunR.ttf'),fontSize)
+        font = pygame.font.Font(os.path.join(os.path.join('FlappyBallon', 'assets'), 'BradBunR.ttf'),fontSize)
         img = font.render(text,True,GameConfig.white)
         displayRect = img.get_rect()
         displayRect.center=(x,y)

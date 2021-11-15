@@ -87,7 +87,7 @@ def gameLoop(window, horloge) :
         if nextScore == True :
             gameState.newLevel(gameState.score)
             nextScore = False
-        nextMove = getIACommand(gameState)
+        # nextMove = getIACommand(gameState)
         gameState.advanceState(nextMove)
         pygame.display.update()
 

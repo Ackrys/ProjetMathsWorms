@@ -48,7 +48,7 @@ def game_loop(window):
         pygame.display.update()
 
         # Délai
-        pygame.time.delay(20)
+        pygame.time.delay(20) # 20
 
 # Configuration et lancement du jeu
 def main() :

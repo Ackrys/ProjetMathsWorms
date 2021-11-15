@@ -14,6 +14,10 @@ class GameConfig :
     WINDOW_H = 640
     WINDOW_W = 960
 
+    # Dimensions fenêtre de jeu
+    WINDOW_GAME_H = WINDOW_H
+    WINDOW_GAME_W = WINDOW_W
+
     # Constante
     DT = 0.3
 

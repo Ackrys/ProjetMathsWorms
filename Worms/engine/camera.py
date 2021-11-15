@@ -8,7 +8,7 @@ from game_config import *
 
 class Camera :
     def __init__(self):
-        self.zoom = 4
+        self.zoom = 1
 
         self.x = 0
         self.y = 0

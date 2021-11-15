@@ -59,13 +59,13 @@ def game_loop(window):
 
         # Affichage
         game_state.draw(window)
-
         # Test jeu terminé
         if game_state.is_over() :
             display_message(window,"Perdu!", 150, (GameConfig.WINDOW_W/2),(GameConfig.WINDOW_H/2-50))
             display_message(window,"Appuyer sur une touche pour continuer", 20, (GameConfig.WINDOW_W/2),(GameConfig.WINDOW_H/2+50))
             game_over = True
 
+        # UPDATE A LA FIN
         pygame.display.update()
         # Délai
         pygame.time.delay(20)

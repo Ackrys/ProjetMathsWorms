@@ -39,7 +39,7 @@ class GameConfig :
     BAT_H = 32
     TICKS_BETWEEN_BATS = 100
     BAT_MIN_SPEED = 15
-    BAT_MAX_SPEED = 50
+    BAT_MAX_SPEED = 30
 
     # Animation
     NB_FRAMES_PER_SPRITE_PLAYER = 2

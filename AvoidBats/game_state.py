@@ -19,14 +19,17 @@ class GameState :
 
     def advance_state(self,next_move):
         self.player.advance_state(next_move)
-
+        nextScore = False
         # Chauve-souris
         for b in self.bats :
             b.advance_state()
 
             if b.is_dead() :
                 self.score += 1
-
+                nextScore = True
+        if nextScore == True :
+            GameState.new_level(self.score)
+            nextScore = False
         # Ticks Chauve-souris
         if self.time_till_new_bat == 0 :
             self.time_till_new_bat = GameConfig.TICKS_BETWEEN_BATS
@@ -66,7 +69,8 @@ class GameState :
 
     def new_level(score):
         if score%5 == 0 and score != 0:
-            GameConfig.BAT_MIN_SPEED += 5
-            GameConfig.BAT_MAX_SPEED += 10
-            GameConfig.TICKS_BETWEEN_BATS -= 5
+            GameConfig.BAT_MIN_SPEED += 2
+            GameConfig.BAT_MAX_SPEED += 2
+            if GameConfig.TICKS_BETWEEN_BATS > 10 :
+                GameConfig.TICKS_BETWEEN_BATS -= 15
         return GameConfig.TICKS_BETWEEN_BATS, GameConfig.BAT_MIN_SPEED

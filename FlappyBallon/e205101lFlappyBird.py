@@ -8,11 +8,11 @@ class GameConfig:
     windowH = 500
     blue = (113,177,227)
     white = (255,255,255)
-    imgBalloon = pygame.image.load(os.path.join('FlappyBallon/assets', 'Balloon.png'))
+    imgBalloon = pygame.image.load(os.path.join(os.path.join('FlappyBallon', 'assets'), 'Balloon.png'))
     balloonW = 50
     balloonH = 66
-    imgUpperCloud = pygame.image.load(os.path.join('FlappyBallon/assets', 'UpperCloud.png'))
-    imgLowerCloud = pygame.image.load(os.path.join('FlappyBallon/assets', 'LowerCloud.png'))
+    imgUpperCloud = pygame.image.load(os.path.join(os.path.join('FlappyBallon', 'assets'), 'UpperCloud.png'))
+    imgLowerCloud = pygame.image.load(os.path.join(os.path.join('FlappyBallon', 'assets'), 'LowerCloud.png'))
     cloudW = 300
     cloudH = 300
     def displayMessage(window,text,fontSize,x,y) :

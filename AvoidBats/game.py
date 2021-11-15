@@ -9,7 +9,7 @@ from move import *
 
 
 
-
+# Renvoie les prochains mouvements effectués par le joueur
 def get_next_move():
         next_move = Move()
         keys = pygame.key.get_pressed()

@@ -22,6 +22,9 @@ def game_loop(window):
             if event.type == pygame.QUIT :
                 quitting = True
 
+        # A remplacer -> Fond noir
+        window.fill((0, 0, 0))
+
 
 
         # Fait avancer l'état de jeu
@@ -66,3 +69,4 @@ def main() :
 
 
 main()
+

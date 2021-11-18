@@ -13,6 +13,7 @@ from engine.decor import *
 from engine.camera import *
 from engine.animation import *
 from engine.scene import *
+from engine.perlin_noise import *
 
 from content.worm import *
 
@@ -36,6 +37,9 @@ class GameState :
         self.scene.add_object(self.background)
         self.scene.add_object(self.worm)
         self.scene.add_object(self.worm_2)
+
+        # Map
+        self.map_noise = NoiseImage()
 
     def advance_state(self, inputs):
         # Window Resize
@@ -88,4 +92,5 @@ class GameState :
 
     def draw(self, window):
         self.scene.draw(window, self.camera)
+        window.blit(self.map_noise.get_noise_image(), (0, 0))
 

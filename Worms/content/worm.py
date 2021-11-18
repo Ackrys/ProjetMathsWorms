@@ -10,8 +10,8 @@ from engine.entity import Entity
 
 class Worm(Entity) :
 
-    def __init__(self, x, y, height, width):
-        super().__init__(x, y, height, width)
+    def __init__(self, x, y, height, width, mass):
+        super().__init__(x, y, height, width, mass)
 
         self.image = GameConfig.WORM_IMG
         self.image_display = self.image

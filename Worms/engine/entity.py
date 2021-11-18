@@ -8,7 +8,7 @@ from game_config import *
 
 class Entity(pygame.sprite.Sprite) :
 
-    def __init__(self, x, y, height, width):
+    def __init__(self, x, y, height, width, mass):
         pygame.sprite.Sprite.__init__(self)
 
         # Rect
@@ -31,12 +31,15 @@ class Entity(pygame.sprite.Sprite) :
         self.x_offset = 0
         self.y_offset = 0
 
+        # Mass
+        self.mass = mass
+
     def advance_state(self):
         # Gravity
         if self.rect.bottom > GameConfig.WINDOW_H:
             self.vy = 0
         else :
-            self.vy = self.vy+GameConfig.GRAVITY*GameConfig.DT
+            self.vy = self.vy+GameConfig.GRAVITY*GameConfig.DT*self.mass
 
         # Position
         x = self.rect.left

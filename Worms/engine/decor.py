@@ -6,9 +6,9 @@
 import pygame
 from game_config import *
 
-class Entity(pygame.sprite.Sprite) :
+class Decor(pygame.sprite.Sprite) :
 
-    def __init__(self, x, y, height, width):
+    def __init__(self, x, y, height, width, image):
         pygame.sprite.Sprite.__init__(self)
 
         # Rect
@@ -23,30 +23,17 @@ class Entity(pygame.sprite.Sprite) :
                     width,
                     height)
 
-        # Vitesse de l'entité
-        self.vx = 0
-        self.vy = 0
+        # Image
+        self.image = GameConfig.loadImage(image)
+        self.image_display = self.image
 
         # Offset
         self.x_offset = 0
         self.y_offset = 0
 
     def advance_state(self):
-        # Gravity
-        if self.rect.bottom > GameConfig.WINDOW_H:
-            self.vy = 0
-        else :
-            self.vy = self.vy+GameConfig.GRAVITY*GameConfig.DT
-
-        # Position
-        x = self.rect.left
-        vx_min = -x/GameConfig.DT
-        vx_max = (GameConfig.WINDOW_W-self.rect.width-x)/GameConfig.DT
-        self.vx = max(min(self.vx,vx_max), vx_min)
-        self.rect = self.rect.move(self.vx*GameConfig.DT,self.vy*GameConfig.DT)
-
-        self.rect_display.x = self.rect.x
-        self.rect_display.y = self.rect.y
+        self.rect.x = self.rect.x
+        self.rect.y = self.rect.y
 
     def applyZoom(self, zoom):
         # Resize
@@ -59,10 +46,17 @@ class Entity(pygame.sprite.Sprite) :
         )
 
         # Move
-        self.rect_display.x = self.rect.x * zoom
-        self.rect_display.y = self.rect.y * zoom
+        if zoom > 1 :
+            self.rect_display.x = self.rect.x + self.rect.x * zoom
+            self.rect_display.y = self.rect.y + self.rect.y * zoom
+        else :
+            self.rect_display.x = self.rect.x - self.rect.x * zoom
+            self.rect_display.y = self.rect.y - self.rect.y * zoom
 
     def applyOffset(self, x, y):
         self.x_offset = x
         self.y_offset = y
+
+    def draw(self, screen):
+        screen.blit(self.image_display, (self.rect_display.x + self.x_offset, self.rect_display.y + self.y_offset))
 

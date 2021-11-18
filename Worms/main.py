@@ -3,9 +3,27 @@
 
 # Import des modules
 import pygame
+from engine.inputs import Input
 
 from game_state import *
 from game_config import *
+
+def get_inputs():
+        next_move = Input()
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_RIGHT]:
+            next_move.right = True
+        if keys[pygame.K_LEFT]:
+            next_move.left = True
+        if keys[pygame.K_UP]:
+            next_move.up = True
+        if keys[pygame.K_DOWN]:
+            next_move.down = True
+        if keys[pygame.K_a]:
+            next_move.zoom_in = True
+        if keys[pygame.K_z]:
+            next_move.zoom_out = True
+        return next_move
 
 # Boucle principale
 def game_loop(window):
@@ -21,6 +39,8 @@ def game_loop(window):
         for event in pygame.event.get() :
             if event.type == pygame.QUIT :
                 quitting = True
+        
+        inputs = get_inputs()
 
         # A remplacer -> Fond noir
         window.fill((0, 0, 0))
@@ -28,7 +48,7 @@ def game_loop(window):
 
 
         # Fait avancer l'état de jeu
-        game_state.advance_state()
+        game_state.advance_state(inputs)
 
 
 

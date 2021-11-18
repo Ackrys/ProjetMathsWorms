@@ -6,6 +6,9 @@
 import pygame
 from game_config import GameConfig
 from content.worm import *
+
+# Engine
+from engine.decor import *
 from engine.camera import *
 
 class GameState :
@@ -13,39 +16,56 @@ class GameState :
         self.camera = Camera()
 
         self.worm = Worm(300, 150, 64, 64)
+        self.background = Decor(0, 0, GameConfig.WINDOW_W, GameConfig.WINDOW_H, "background.png")
 
-    def advance_state(self):
-        self.move = None
-        self.worm.advanced_state()
+        self.objects = []
+        self.objects.append(self.worm)
+        self.objects.append(self.background)
 
-    def draw(self, window):
-        pygame.draw.rect(window,(0, 0, 255),
-            (200,150,100,50)
-        )
+        self.count = 0
 
+    def advance_state(self, inputs):
+        # Window Resize
         GameConfig.WINDOW_GAME_H = GameConfig.WINDOW_H * self.camera.zoom
         GameConfig.WINDOW_GAME_W = GameConfig.WINDOW_W * self.camera.zoom
 
-        if self.camera.zoom != 1: # Zoom camera
-            # Resize
-            self.worm.rect.height = self.worm.origin_rect.height * self.camera.zoom
-            self.worm.rect.width = self.worm.origin_rect.width * self.camera.zoom
-            self.worm.image = pygame.transform.scale(self.worm.image, (
-                self.worm.origin_image.get_rect().size[0] * self.camera.zoom,
-                self.worm.origin_image.get_rect().size[1] * self.camera.zoom,
-            )
-            )
+        # Camera zoom
+        if inputs.zoom_in:
+            self.camera.zoom_by(-0.01)
+        if inputs.zoom_out:
+            self.camera.zoom_by(0.01)
 
-            # Move
-            if self.camera.zoom > 1 :
-                self.worm.rect.x = self.worm.origin_rect.x - self.worm.rect.width + self.worm.origin_rect.width
-                self.worm.rect.y = self.worm.origin_rect.y - self.worm.rect.height + self.worm.origin_rect.height
-            else :
-                self.worm.rect.x = self.worm.origin_rect.x + self.worm.rect.width - self.worm.origin_rect.width
-                self.worm.rect.y = self.worm.origin_rect.y + self.worm.rect.height - self.worm.origin_rect.height
+        # Camera movement
+        camera_moved = False
+        if inputs.up :
+            self.camera.move_by(0, 2)
+            camera_moved = True
+        if inputs.down :
+            self.camera.move_by(0, -2)
+            camera_moved = True
+        if inputs.left :
+            self.camera.move_by(2, 0)
+            camera_moved = True
+        if inputs.right :
+            self.camera.move_by(-2, 0)
+            camera_moved = True
 
-        if (self.camera.zoom < 1.1) :
-            self.camera.zoom_by(0.05)
+        if camera_moved:
+            for i in range(len(self.objects)):
+                currentObject = self.objects[i]
+                currentObject.applyOffset(self.camera.x, self.camera.y)
+
+        # Advance state
+        self.worm.advance_state()
+        # self.background.advance_state()
+
+    def draw(self, window):
+
+        for i in range(len(self.objects)):
+            currentObject = self.objects[i]
+            if self.camera.zoom != 1:
+                currentObject.applyZoom(self.camera.zoom)
 
 
+        self.background.draw(window)
         self.worm.draw(window)

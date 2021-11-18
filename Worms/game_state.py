@@ -59,6 +59,13 @@ class GameState :
             self.camera.move_by(-GameConfig.CAMERA_MOVE_SPEED, 0)
             camera_moved = True
 
+        # Camera follow
+        if camera_moved:
+            for i in range(len(self.objects)):
+                currentObject = self.objects[i]
+                currentObject.applyOffset(self.camera.x, self.camera.y)
+
+        # Player movement
         if inputs.player_move_left:
             self.worm.vx = -GameConfig.WORM_SPEED
             self.worm.set_animation("walk_left")
@@ -68,11 +75,6 @@ class GameState :
         if not inputs.player_move_left and not inputs.player_move_right:
             self.worm.vx = 0
             self.worm.set_animation("idle")
-
-        if camera_moved:
-            for i in range(len(self.objects)):
-                currentObject = self.objects[i]
-                currentObject.applyOffset(self.camera.x, self.camera.y)
 
         # Advance state
         for i in range(len(self.objects)):

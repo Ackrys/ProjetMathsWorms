@@ -20,6 +20,9 @@ class Animation() :
     def get_current_image(self):
         return self.current_image
 
+    def get_current_mask(self):
+        return pygame.mask.from_surface(self.current_image)
+
     def advance_state(self):
         if self.nb_tick == 2 : # 2 ticks = 1 frame
             if self.current_image == self.images[-1]: # Si on est à la dernière image

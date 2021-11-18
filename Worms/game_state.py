@@ -2,20 +2,24 @@
 #       - Correspond à l'état de jeu
 
 
-# Import des modules
+# Pygame
 import pygame
-from engine.animation import Animation
+
+# Game Config
 from game_config import GameConfig
-from content.worm import *
 
 # Engine
 from engine.decor import *
 from engine.camera import *
+from engine.animation import *
+from engine.scene import *
+
+from content.worm import *
 
 class GameState :
     def __init__(self):
-        # Array of all objects in scene
-        self.objects = []
+        # Scene
+        self.scene = Scene()
 
         # Camera
         self.camera = Camera()
@@ -25,13 +29,13 @@ class GameState :
 
         self.background = Decor(0, 0, GameConfig.WINDOW_W, GameConfig.WINDOW_H, "background.png")
         
-        self.worm_2 = Decor(400, 200, 64, 64, "standing.png")
+        self.worm_2 = Decor(450, 600, 64, 64, "standing.png")
         self.worm_2.define_animation("right", Animation(["R1.png", "R2.png", "R3.png", "R4.png", "R5.png", "R6.png", "R7.png", "R8.png", "R9.png"]))
         self.worm_2.set_animation("right")
 
-        self.objects.append(self.background)
-        self.objects.append(self.worm)
-        self.objects.append(self.worm_2)
+        self.scene.add_object(self.background)
+        self.scene.add_object(self.worm)
+        self.scene.add_object(self.worm_2)
 
     def advance_state(self, inputs):
         # Window Resize
@@ -61,9 +65,7 @@ class GameState :
 
         # Camera follow
         if camera_moved:
-            for i in range(len(self.objects)):
-                currentObject = self.objects[i]
-                currentObject.applyOffset(self.camera.x, self.camera.y)
+            self.scene.applyOffset(self.camera.x, self.camera.y)
 
         # Player movement
         if inputs.player_move_left:
@@ -76,14 +78,14 @@ class GameState :
             self.worm.vx = 0
             self.worm.set_animation("idle")
 
+        if self.scene.areColliding(self.worm, self.worm_2):
+            print("Collision")
+        else:
+            print("No collision")
+
         # Advance state
-        for i in range(len(self.objects)):
-            currentObject = self.objects[i]
-            currentObject.advance_state()
+        self.scene.advance_state()
 
     def draw(self, window):
-        for i in range(len(self.objects)):
-            currentObject = self.objects[i]
-            if self.camera.zoom != 1:
-                currentObject.applyZoom(self.camera.zoom)
-            currentObject.draw(window)
+        self.scene.draw(window, self.camera)
+

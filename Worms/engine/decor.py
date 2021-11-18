@@ -36,6 +36,7 @@ class Decor(pygame.sprite.Sprite) :
         }
 
         self.image_display = self.animations["idle"].get_current_image()
+        self.mask = self.animations["idle"].get_current_mask()
 
         self.current_animation = "idle"
 

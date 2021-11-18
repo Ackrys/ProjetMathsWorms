@@ -30,8 +30,6 @@ class GameConfig :
 
 
 
-
-
     # Worm
     WORM_SPEED = 10
 

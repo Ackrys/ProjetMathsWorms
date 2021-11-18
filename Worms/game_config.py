@@ -22,11 +22,20 @@ class GameConfig :
     CAMERA_ZOOM_SPEED = 0.01
     CAMERA_MOVE_SPEED = 4
 
-    # Constante
+    # Constante DeltaTime
     DT = 0.3
 
     # Gravité
     GRAVITY = 9.81
+
+
+
+
+
+    # Worm
+    WORM_SPEED = 10
+
+
 
     def init():
         GameConfig.WORM_IMG = GameConfig.loadImage("standing.png")

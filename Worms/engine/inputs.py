@@ -4,12 +4,18 @@
 
 class Input:
     def __init__(self):
-        # Arrow keys
-        self.left = False
-        self.right = False
-        self.up = False
-        self.down = False
+        # ZQSD
+        self.camera_left = False
+        self.camera_right = False
+        self.camera_up = False
+        self.camera_down = False
 
-        # Zoom (a / e)
-        self.zoom_in = False
-        self.zoom_out = False 
+        # Zoom (A / E)
+        self.camera_zoom_in = False
+        self.camera_zoom_out = False 
+
+        # Arrow
+        self.player_move_left = False
+        self.player_move_right = False
+        self.player_move_up = False
+        self.player_move_down = False

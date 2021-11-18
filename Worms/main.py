@@ -11,18 +11,30 @@ from game_config import *
 def get_inputs():
         next_move = Input()
         keys = pygame.key.get_pressed()
-        if keys[pygame.K_RIGHT]:
-            next_move.right = True
-        if keys[pygame.K_LEFT]:
-            next_move.left = True
-        if keys[pygame.K_UP]:
-            next_move.up = True
-        if keys[pygame.K_DOWN]:
-            next_move.down = True
-        if keys[pygame.K_a]:
-            next_move.zoom_in = True
+        # Camera
+        if keys[pygame.K_d]:
+            next_move.camera_right = True
+        if keys[pygame.K_q]:
+            next_move.camera_left = True
         if keys[pygame.K_z]:
-            next_move.zoom_out = True
+            next_move.camera_up = True
+        if keys[pygame.K_s]:
+            next_move.camera_down = True
+        if keys[pygame.K_a]:
+            next_move.camera_zoom_in = True
+        if keys[pygame.K_e]:
+            next_move.camera_zoom_out = True
+
+        # Player movements
+        if keys[pygame.K_UP]:
+            next_move.player_move_up = True
+        if keys[pygame.K_DOWN]:
+            next_move.player_move_down = True
+        if keys[pygame.K_LEFT]:
+            next_move.player_move_left = True
+        if keys[pygame.K_RIGHT]:
+            next_move.player_move_right = True
+
         return next_move
 
 # Boucle principale

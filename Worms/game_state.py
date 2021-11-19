@@ -22,24 +22,24 @@ class GameState :
         # Scene
         self.scene = Scene()
 
+        # Map
+        self.map_image = MapImage(20, 6)
+
         # Camera
         self.camera = Camera()
 
         # Objects
         self.worm = Worm(300, 150, 64, 64, 1)
 
-        self.background = Decor(0, 0, GameConfig.WINDOW_W, GameConfig.WINDOW_H, "background.png")
+        #self.background = Decor(0, 0, GameConfig.WINDOW_W, GameConfig.WINDOW_H, "background.png")
         
         self.worm_2 = Decor(450, 600, 64, 64, "standing.png")
         self.worm_2.define_animation("right", Animation(["R1.png", "R2.png", "R3.png", "R4.png", "R5.png", "R6.png", "R7.png", "R8.png", "R9.png"]))
         self.worm_2.set_animation("right")
 
-        self.scene.add_object(self.background)
+        self.scene.add_object(self.map_image)
         self.scene.add_object(self.worm)
         self.scene.add_object(self.worm_2)
-
-        # Map
-        self.map_image = MapImage(20, 6)
 
     def advance_state(self, inputs):
         # Window Resize
@@ -90,7 +90,6 @@ class GameState :
         # Advance state
         self.scene.advance_state()
 
-    def draw(self, window):
-        self.scene.draw(window, self.camera)
-        window.blit(self.map_image.get_noise_image(), (0, 0))
+    def draw(self, screen):
+        self.scene.draw(screen, self.camera)
 

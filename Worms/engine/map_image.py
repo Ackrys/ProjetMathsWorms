@@ -10,19 +10,66 @@ from game_config import *
 
 class MapImage :
 
+
+    # Initialisation
+
     def __init__(self, lineheight, complexity):
         # Data
-        self.noise_image = pygame.Surface( (GameConfig.WINDOW_GAME_W, GameConfig.WINDOW_GAME_H) )
+        self.noise_image = pygame.Surface( (GameConfig.WINDOW_W, GameConfig.WINDOW_H - 500) )
         self.lineheight = lineheight
         self.complexity = complexity + 1
+
+        self.x_offset = 0
+        self.y_offset = 0
+
+        self.rect = pygame.Rect(0, GameConfig.WINDOW_H - self.noise_image.get_height(), self.noise_image.get_width(), self.noise_image.get_height())
+        self.rect_display = self.rect.copy()
         
         # Generation
         self.noise_image.fill((120,40,120))
-        self.generate_map(0)
-        self.generate_map(self.lineheight)
-        self.generate_map(self.lineheight * 2)
-        self.generate_map(self.lineheight * 3)
-        self.generate_map(self.lineheight * 4)
+        
+        offset = 0
+        while offset < self.noise_image.get_height():
+            self.generate_map(offset)
+            offset += self.lineheight
+
+        self.noise_image_display = self.noise_image.copy()
+
+    # Methods
+
+    def get_noise_image(self):
+        return self.noise_image
+
+    # Display methods
+    def applyZoom(self, zoom):
+        # Resize
+        self.rect_display.height = self.rect.height * zoom
+        self.rect_display.width = self.rect.width * zoom
+        self.noise_image_display = pygame.transform.scale(self.noise_image, (
+            self.noise_image.get_width() * zoom,
+            self.noise_image.get_height() * zoom,
+        )
+        )
+
+        # Move
+        self.rect_display.x = self.rect.x * zoom
+        self.rect_display.y = self.rect.y * zoom
+
+    def applyOffset(self, x, y):
+        self.x_offset = x
+        self.y_offset = y
+    
+    def advance_state(self):
+        pass
+
+    def draw(self, screen):
+        screen.blit(
+            self.noise_image_display,
+            (
+                self.rect_display.x + self.x_offset, 
+                self.rect_display.y + self.y_offset
+            )
+        )
 
 
     # Map Generation
@@ -108,13 +155,6 @@ class MapImage :
                 for h in range(offset, offset + self.lineheight):
                     self.noise_image.set_at((w,h),(0,0,0))
                     
-
-
-    # Getter
-
-    def get_noise_image(self):
-            return self.noise_image
-
 
     # Noise generation
 

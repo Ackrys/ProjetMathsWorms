@@ -13,7 +13,7 @@ from engine.decor import *
 from engine.camera import *
 from engine.animation import *
 from engine.scene import *
-from engine.perlin_noise import *
+from engine.map_image import *
 
 from content.worm import *
 
@@ -39,7 +39,7 @@ class GameState :
         self.scene.add_object(self.worm_2)
 
         # Map
-        # self.map_noise = NoiseImage()
+        self.map_image = MapImage(20, 6)
 
     def advance_state(self, inputs):
         # Window Resize
@@ -82,15 +82,15 @@ class GameState :
             self.worm.vx = 0
             self.worm.set_animation("idle")
 
-        if self.scene.areColliding(self.worm, self.worm_2):
-            print("Collision")
-        else:
-            print("No collision")
+        #if self.scene.areColliding(self.worm, self.worm_2):
+        #    print("Collision")
+        #else:
+        #    print("No collision")
 
         # Advance state
         self.scene.advance_state()
 
     def draw(self, window):
         self.scene.draw(window, self.camera)
-        # window.blit(self.map_noise.get_noise_image(), (0, 0))
+        window.blit(self.map_image.get_noise_image(), (0, 0))
 

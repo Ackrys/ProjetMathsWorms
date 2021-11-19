@@ -39,7 +39,7 @@ class GameState :
         self.scene.add_object(self.worm_2)
 
         # Map
-        self.map_noise = NoiseImage()
+        # self.map_noise = NoiseImage()
 
     def advance_state(self, inputs):
         # Window Resize
@@ -92,5 +92,5 @@ class GameState :
 
     def draw(self, window):
         self.scene.draw(window, self.camera)
-        window.blit(self.map_noise.get_noise_image(), (0, 0))
+        # window.blit(self.map_noise.get_noise_image(), (0, 0))
 

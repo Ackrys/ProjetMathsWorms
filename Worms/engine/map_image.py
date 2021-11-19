@@ -20,6 +20,9 @@ class MapImage :
         self.noise_image.fill((120,40,120))
         self.generate_map(0)
         self.generate_map(self.lineheight)
+        self.generate_map(self.lineheight * 2)
+        self.generate_map(self.lineheight * 3)
+        self.generate_map(self.lineheight * 4)
 
 
     # Map Generation
@@ -55,11 +58,9 @@ class MapImage :
         for w in range(0, self.noise_image.get_width()):
             for h in range(offset, offset + self.lineheight):
                 if(self.noise_image.get_at((w,h))[0] > 100):
-                    for i in range(h, self.lineheight):
-                        self.noise_image.set_at((w,i),(255,255,255))
+                    self.noise_image.set_at((w,h),(255,255,255))
                 else:
-                    for i in range(h, self.lineheight):
-                        self.noise_image.set_at((w,i),(0,0,0))
+                    self.noise_image.set_at((w,h),(0,0,0))
 
         # Keep [self.complexity] longest lines of the map row
         longest_lines = []
@@ -69,7 +70,7 @@ class MapImage :
                 length = 1
                 # Get the length of the line
                 w_offset = w
-                while self.noise_image.get_at((w_offset,0))[0] < 100 and w_offset < self.noise_image.get_width() - 1:
+                while self.noise_image.get_at((w_offset,offset))[0] < 100 and w_offset < self.noise_image.get_width() - 1:
                     length += 1
                     w_offset += 1
                 

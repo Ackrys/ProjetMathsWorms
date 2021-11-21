@@ -1,5 +1,5 @@
-# Class Perlin Noise
-#           - Implémente la génération d'un perlin noise
+# Class Map Image
+#           - Implémente la génération d'image de la map via du perlin noise
 #           - Source : https://gist.github.com/veb/7b9f5393d0c25977e4cb
 
 import pygame
@@ -10,12 +10,11 @@ from game_config import *
 
 class MapImage :
 
-
     # Initialisation
 
     def __init__(self, lineheight, complexity):
         # Data
-        self.noise_image = pygame.Surface( (GameConfig.WINDOW_W, GameConfig.WINDOW_H - 500) )
+        self.noise_image = pygame.Surface( (GameConfig.WINDOW_W, GameConfig.WINDOW_H - 400) )
         self.lineheight = lineheight
         self.complexity = complexity + 1
 
@@ -27,18 +26,30 @@ class MapImage :
         
         # Generation
         self.noise_image.fill((120,40,120))
+
+        self.row_state_max = 8
+        self.row_state = []
+
+        self.color_white = (255, 255, 255)
+        self.color_black = (0, 0, 0)
+        self.color_transparent = (255, 255, 255, 0)
         
         offset = 0
-        while offset < self.noise_image.get_height():
+        while offset < self.noise_image.get_height(): # Generate loop
             self.generate_map(offset)
             offset += self.lineheight
 
         self.noise_image_display = self.noise_image.copy()
 
+        self.transparent_map()
+
     # Methods
 
     def get_noise_image(self):
         return self.noise_image
+
+    def get_mask(self):
+        return pygame.mask.from_surface(self.noise_image)
 
     # Display methods
     def applyZoom(self, zoom):
@@ -147,13 +158,56 @@ class MapImage :
         # Fill with white pixels
         for w in range(0, self.noise_image.get_width()):
             for h in range(offset, offset + self.lineheight):
-                self.noise_image.set_at((w,h),(255,255,255))
+                self.noise_image.set_at((w,h), self.color_white)
 
         # Draw the lines
         for line in longest_lines:
             for w in range(line['start'], line['start'] + line['length']):
                 for h in range(offset, offset + self.lineheight):
-                    self.noise_image.set_at((w,h),(0,0,0))
+                    self.noise_image.set_at((w,h),self.color_black)
+
+        # If offset == 0 add pixel value to row_state
+        if offset == 0:
+            self.row_state = []
+            for w in range(0, self.noise_image.get_width()):
+                if self.noise_image.get_at((w,0))[0] < 100: # Black pixel
+                    self.row_state.append(self.row_state_max)
+                else:
+                    self.row_state.append(0)
+        else:
+            # Else add pixel value to row_state
+            for w in range(0, self.noise_image.get_width()):
+                if self.noise_image.get_at((w,offset))[0] < 100: # Black pixel
+                    if self.row_state[w] < self.row_state_max:
+                        self.row_state[w] += 1
+                        if w > 0:
+                            self.row_state[w-1] += 0.5
+                        if w < self.noise_image.get_width() - 1:
+                            self.row_state[w+1] += 0.5
+                else:
+                    if self.row_state[w] > 0:
+                        self.row_state[w] -= 1
+                        if w > 0:
+                            self.row_state[w-1] -= 0.5
+                        if w < self.noise_image.get_width() - 1:
+                            self.row_state[w+1] -= 0.5
+
+            # Draw the row state
+            for w in range(0, self.noise_image.get_width()):
+                if self.row_state[w] > self.row_state_max / 2:
+                    for h in range(offset, offset + self.lineheight):
+                        self.noise_image.set_at((w,h), self.color_black)
+                else:
+                    for h in range(offset, offset + self.lineheight):
+                        self.noise_image.set_at((w,h), self.color_white)
+            
+    def transparent_map(self):
+        for w in range(0, self.noise_image.get_width()):
+            for h in range(0, self.noise_image.get_height()):
+                if self.noise_image.get_at((w,h))[0] > 100:
+                    self.noise_image.set_at((w,h), self.color_transparent)
+
+
                     
 
     # Noise generation

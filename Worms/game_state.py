@@ -4,6 +4,7 @@
 
 # Pygame
 import pygame
+from engine.map import Map
 
 # Game Config
 from game_config import GameConfig
@@ -23,7 +24,8 @@ class GameState :
         self.scene = Scene()
 
         # Map
-        self.map_image = MapImage(20, 6)
+        self.map = Map()
+        self.scene.load_map(self.map)
 
         # Camera
         self.camera = Camera()
@@ -37,7 +39,6 @@ class GameState :
         self.worm_2.define_animation("right", Animation(["R1.png", "R2.png", "R3.png", "R4.png", "R5.png", "R6.png", "R7.png", "R8.png", "R9.png"]))
         self.worm_2.set_animation("right")
 
-        self.scene.add_object(self.map_image)
         self.scene.add_object(self.worm)
         self.scene.add_object(self.worm_2)
 

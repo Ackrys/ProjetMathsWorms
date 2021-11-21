@@ -47,20 +47,19 @@ class Entity(pygame.sprite.Sprite) :
 
         self.current_animation = "idle"
 
+        # Collidors
+        self.collidors = []
+
 
     # Advance method
     def advance_state(self):
         # Gravity
-        if self.rect.bottom > GameConfig.WINDOW_H:
+        if self.rect.bottom >= GameConfig.WINDOW_H :
             self.vy = 0
         else :
             self.vy = self.vy+GameConfig.GRAVITY*GameConfig.DT*self.mass
 
         # Position
-        x = self.rect.left
-        vx_min = -x/GameConfig.DT
-        vx_max = (GameConfig.WINDOW_W-self.rect.width-x)/GameConfig.DT
-        self.vx = max(min(self.vx,vx_max), vx_min)
         self.rect = self.rect.move(self.vx*GameConfig.DT,self.vy*GameConfig.DT)
 
         self.rect_display.x = self.rect.x

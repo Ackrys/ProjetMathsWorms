@@ -55,7 +55,7 @@ def game_loop(window):
         inputs = get_inputs()
 
         # A remplacer -> Fond noir
-        window.fill((0, 0, 0))
+        window.fill((25, 25, 25))
 
 
 

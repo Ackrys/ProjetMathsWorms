@@ -4,6 +4,7 @@
 
 # Pygame
 import pygame
+from content.projectile import Projectile
 from engine.map import Map
 
 # Game Config
@@ -35,12 +36,12 @@ class GameState :
 
         #self.background = Decor(0, 0, GameConfig.WINDOW_W, GameConfig.WINDOW_H, "background.png")
         
-        self.worm_2 = Decor(450, 600, 64, 64, "standing.png")
-        self.worm_2.define_animation("right", Animation(["R1.png", "R2.png", "R3.png", "R4.png", "R5.png", "R6.png", "R7.png", "R8.png", "R9.png"]))
-        self.worm_2.set_animation("right")
+        #self.worm_2 = Decor(450, 600, 64, 64, "standing.png")
+        #self.worm_2.define_animation("right", Animation(["R1.png", "R2.png", "R3.png", "R4.png", "R5.png", "R6.png", "R7.png", "R8.png", "R9.png"]))
+        #self.worm_2.set_animation("right")
 
         self.scene.add_object(self.worm)
-        self.scene.add_object(self.worm_2)
+        #self.scene.add_object(self.worm_2)
 
     def advance_state(self, inputs):
         # Window Resize
@@ -82,6 +83,11 @@ class GameState :
         if not inputs.player_move_left and not inputs.player_move_right:
             self.worm.vx = 0
             self.worm.set_animation("idle")
+
+        # Player action
+        if inputs.player_shoot:
+            self.projectile = Projectile(self.worm.rect.x, self.worm.rect.y, 20, 20, 3)
+            self.scene.add_object(self.projectile)
 
         #if self.scene.areColliding(self.worm, self.worm_2):
         #    print("Collision")

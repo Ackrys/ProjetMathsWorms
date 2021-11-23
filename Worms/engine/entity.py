@@ -89,7 +89,13 @@ class Entity(pygame.sprite.Sprite) :
         self.y_offset = y
 
     def draw(self, screen):
-        super().draw(screen)
+        screen.blit(
+            self.image_display,
+            (
+                self.rect_display.x + self.x_offset, 
+                self.rect_display.y + self.y_offset
+            )
+        )
 
 
     # Animation methods

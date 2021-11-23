@@ -39,9 +39,10 @@ class MapImage :
             self.generate_map(offset)
             offset += self.lineheight
 
-        self.noise_image_display = self.noise_image.copy()
+        self.fix_map()
+        # self.transparent_map()
 
-        self.transparent_map()
+        self.noise_image_display = self.noise_image.copy()
 
     # Methods
 
@@ -201,12 +202,37 @@ class MapImage :
                     for h in range(offset, offset + self.lineheight):
                         self.noise_image.set_at((w,h), self.color_white)
             
+    def fix_map(self):
+        # For each line
+        for h in range(0, self.noise_image.get_height(), self.lineheight):
+            length = 0
+            length_offset = 0
+            actual_color = self.noise_image.get_at((0,h))[0]
+            # For each pixel
+            for w in range(0, self.noise_image.get_width()):
+                if self.noise_image.get_at((w,h))[0] != actual_color:
+                    length = w - length_offset
+                    length_offset = w
+                    actual_color = self.noise_image.get_at((w,h))[0]
+
+                    if length < 10 :
+                        for i in range(length_offset, length_offset + length - 1):
+                            for h_i in range(h, h + self.lineheight):
+                                # Apply opposite color of actual color
+                                if actual_color > 100:
+                                    self.noise_image.set_at((i,h_i), self.color_black)
+                                else:
+                                    self.noise_image.set_at((i,h_i), self.color_white)
+
+
+        
+
+
     def transparent_map(self):
         for w in range(0, self.noise_image.get_width()):
             for h in range(0, self.noise_image.get_height()):
                 if self.noise_image.get_at((w,h))[0] > 100:
                     self.noise_image.set_at((w,h), self.color_transparent)
-
 
                     
 

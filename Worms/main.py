@@ -7,7 +7,7 @@ from engine.inputs import Input
 
 from game_state import *
 from game_config import *
-import content.projectile
+from content.projectile import *
 
 def get_inputs(game_state):
         next_move = Input()
@@ -38,7 +38,7 @@ def get_inputs(game_state):
         
         #player action
         if keys[pygame.K_t]:
-            game_state.worm.pull(Projectile(game_state.worm.x, game_state.worm.y, 20, 20, 3))
+            next_move.player_shoot = True
             
         return next_move
 

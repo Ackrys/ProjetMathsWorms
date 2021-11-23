@@ -19,3 +19,6 @@ class Input:
         self.player_move_right = False
         self.player_move_up = False
         self.player_move_down = False
+
+        # Player action
+        self.player_shoot = False

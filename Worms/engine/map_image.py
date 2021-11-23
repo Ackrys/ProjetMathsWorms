@@ -34,12 +34,8 @@ class MapImage :
         self.color_black = (0, 0, 0)
         self.color_transparent = (255, 255, 255, 0)
         
-        offset = 0
-        while offset < self.noise_image.get_height(): # Generate loop
-            self.generate_map(offset)
-            offset += self.lineheight
+        self.generate_map()
 
-        self.fix_map()
         # self.transparent_map()
 
         self.noise_image_display = self.noise_image.copy()
@@ -85,144 +81,58 @@ class MapImage :
 
 
     # Map Generation
-    def generate_map(self, offset):
+    def generate_map(self, thickness=3, density=2):
+        # Density > 0 / Integer
+        # Thickness > 0 / Integer
 
         # Generate noise
         scale1 = 2.0
         scale2 = 4.0
         scale3 = 8.0
         for w in range(0, self.noise_image.get_width()):
-            for h in range(offset, offset + self.lineheight):
+            for h in range(0, self.noise_image.get_height()):
                 i = int((self.noise(w/scale1,h/scale1)+1.0) * 42)
                 i += int((self.noise(w/scale2,h/scale2)+1.0) * 42)
                 i += int((self.noise(w/scale3,h/scale3)+1.0) * 42)
-                # Randomize the color
-                i = int(i * (random.random() * 0.5 + 0.5))
                 # Flat the color
                 if(i>255):
                     i=255
                 if(i<0):
                     i=0
                 self.noise_image.set_at((w,h),(i,i,i))
+        
+        # Round color to neareast black/white
+        self.round_to_nearest_black_and_white()
 
-        # Round Noise Image Pixels To Nearest white or black
+        # Apply delation to image
+        for i in range(0, density):
+            self.delation(thickness)
+
+        # Round color to neareast black/white
+        self.round_to_nearest_black_and_white()
+
+        # Get white islands
+        self.get_white_islands()
+
+    def delation(self, thickness):
+        # Apply delation to image
+        self.noise_image = pygame.transform.smoothscale(self.noise_image, (self.noise_image.get_width() / thickness, self.noise_image.get_height() / thickness))
+
+        # Resize the image to original size
+        self.noise_image = pygame.transform.smoothscale(self.noise_image, (self.noise_image.get_width() * thickness, self.noise_image.get_height() * thickness))
+
+    def round_to_nearest_black_and_white(self):       
         for w in range(0, self.noise_image.get_width()):
-            for h in range(offset, offset + self.lineheight):
-                if(self.noise_image.get_at((w,h))[0] > 150):
-                    self.noise_image.set_at((w,h),(255,255,255))
+            for h in range(0, self.noise_image.get_height()):
+                if self.noise_image.get_at((w,h))[0] > 140:
+                    self.noise_image.set_at((w,h), self.color_white)
                 else:
-                    self.noise_image.set_at((w,h),(0,0,0))
+                    self.noise_image.set_at((w,h), self.color_black)
 
-        # Round Image Color For Each Column
-        for w in range(0, self.noise_image.get_width()):
-            for h in range(offset, offset + self.lineheight):
-                if(self.noise_image.get_at((w,h))[0] > 100):
-                    self.noise_image.set_at((w,h),(255,255,255))
-                else:
-                    self.noise_image.set_at((w,h),(0,0,0))
-
-        # Keep [self.complexity] longest lines of the map row
-        longest_lines = []
-        w = 0
-        while w < self.noise_image.get_width():
-            if(self.noise_image.get_at((w,0))[0] < 100): # Black pixel
-                length = 1
-                # Get the length of the line
-                w_offset = w
-                while self.noise_image.get_at((w_offset,offset))[0] < 100 and w_offset < self.noise_image.get_width() - 1:
-                    length += 1
-                    w_offset += 1
-                
-                if len(longest_lines) < self.complexity:
-                    longest_lines.append({
-                        'length': length,
-                        'start': w
-                    })
-                    w += length - 1
-                else :
-                    # Find shortest line
-                    shortest_line = None
-                    for line in longest_lines:
-                        if shortest_line == None or line['length'] < shortest_line['length']:
-                            shortest_line = line
-
-                    # Replace shortest line by the new one
-                    if shortest_line['length'] < length:
-                        longest_lines.remove(shortest_line)
-                        longest_lines.append({
-                            'length': length,
-                            'start': w
-                        })
-                        w += length - 1
-            w += 1
-
-        # Fill with white pixels
-        for w in range(0, self.noise_image.get_width()):
-            for h in range(offset, offset + self.lineheight):
-                self.noise_image.set_at((w,h), self.color_white)
-
-        # Draw the lines
-        for line in longest_lines:
-            for w in range(line['start'], line['start'] + line['length']):
-                for h in range(offset, offset + self.lineheight):
-                    self.noise_image.set_at((w,h),self.color_black)
-
-        # If offset == 0 add pixel value to row_state
-        if offset == 0:
-            self.row_state = []
-            for w in range(0, self.noise_image.get_width()):
-                if self.noise_image.get_at((w,0))[0] < 100: # Black pixel
-                    self.row_state.append(self.row_state_max)
-                else:
-                    self.row_state.append(0)
-        else:
-            # Else add pixel value to row_state
-            for w in range(0, self.noise_image.get_width()):
-                if self.noise_image.get_at((w,offset))[0] < 100: # Black pixel
-                    if self.row_state[w] < self.row_state_max:
-                        self.row_state[w] += 1
-                        if w > 0:
-                            self.row_state[w-1] += 0.5
-                        if w < self.noise_image.get_width() - 1:
-                            self.row_state[w+1] += 0.5
-                else:
-                    if self.row_state[w] > 0:
-                        self.row_state[w] -= 1
-                        if w > 0:
-                            self.row_state[w-1] -= 0.5
-                        if w < self.noise_image.get_width() - 1:
-                            self.row_state[w+1] -= 0.5
-
-            # Draw the row state
-            for w in range(0, self.noise_image.get_width()):
-                if self.row_state[w] > self.row_state_max / 2:
-                    for h in range(offset, offset + self.lineheight):
-                        self.noise_image.set_at((w,h), self.color_black)
-                else:
-                    for h in range(offset, offset + self.lineheight):
-                        self.noise_image.set_at((w,h), self.color_white)
-            
-    def fix_map(self):
-        # For each line
-        for h in range(0, self.noise_image.get_height(), self.lineheight):
-            length = 0
-            length_offset = 0
-            actual_color = self.noise_image.get_at((0,h))[0]
-            # For each pixel
-            for w in range(0, self.noise_image.get_width()):
-                if self.noise_image.get_at((w,h))[0] != actual_color:
-                    length = w - length_offset
-                    length_offset = w
-                    actual_color = self.noise_image.get_at((w,h))[0]
-
-                    if length < 10 :
-                        for i in range(length_offset, length_offset + length - 1):
-                            for h_i in range(h, h + self.lineheight):
-                                # Apply opposite color of actual color
-                                if actual_color > 100:
-                                    self.noise_image.set_at((i,h_i), self.color_black)
-                                else:
-                                    self.noise_image.set_at((i,h_i), self.color_white)
+    def get_white_islands(self):
+        # Get white islands
+        self.white_islands = []
+        pass
 
 
         
@@ -234,7 +144,7 @@ class MapImage :
                 if self.noise_image.get_at((w,h))[0] > 100:
                     self.noise_image.set_at((w,h), self.color_transparent)
 
-                    
+
 
     # Noise generation
 

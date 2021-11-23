@@ -36,7 +36,7 @@ class GameConfig :
 
 
     def init():
-        GameConfig.WORM_IMG = GameConfig.loadImage("standing.png")
+        pass
 
     # Fonction chargeant une image avec un chemin démarrant au dossier 'assets'
     def loadImage(image_path) :

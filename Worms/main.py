@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*
 # Fichier principal
 
 
@@ -44,7 +46,7 @@ def get_inputs(game_state):
 
 # Boucle principale
 def game_loop(window):
-    # Créer l'état de jeu
+    # Créer l'etat de jeu
     game_state = GameState()
 
     game_over = False

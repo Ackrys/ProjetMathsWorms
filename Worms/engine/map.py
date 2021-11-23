@@ -17,7 +17,7 @@ class Map(pygame.sprite.Sprite) :
         pygame.sprite.Sprite.__init__(self)
 
         # Data
-        self.image = MapImage(5, 4)
+        self.image = MapImage(6)
 
         self.rect = self.image.rect
         self.mask = self.image.get_mask()

@@ -89,10 +89,10 @@ class GameState :
             self.projectile = Projectile(self.worm.rect.x, self.worm.rect.y, 20, 20, 3)
             self.scene.add_object(self.projectile)
 
-        #if self.scene.areColliding(self.worm, self.worm_2):
-        #    print("Collision")
-        #else:
-        #    print("No collision")
+        if self.map.isTouchingMap(self.worm):
+            print("Collision")
+        else:
+            print("No collision")
 
         # Advance state
         self.scene.advance_state()

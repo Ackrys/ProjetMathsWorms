@@ -22,5 +22,11 @@ class Worm(Entity) :
     def advance_state(self):
         super().advance_state()
 
+        # Gravity
+        if self.rect.bottom >= GameConfig.WINDOW_H:
+            self.vy = 0
+        else:
+            self.vy = self.vy+GameConfig.GRAVITY*GameConfig.DT*self.mass
+
     def draw(self, screen):
         super().draw(screen)

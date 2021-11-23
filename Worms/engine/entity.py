@@ -53,12 +53,6 @@ class Entity(pygame.sprite.Sprite) :
 
     # Advance method
     def advance_state(self):
-        # Gravity
-        if self.rect.bottom >= GameConfig.WINDOW_H :
-            self.vy = 0
-        else :
-            self.vy = self.vy+GameConfig.GRAVITY*GameConfig.DT*self.mass
-
         # Position
         self.rect = self.rect.move(self.vx*GameConfig.DT,self.vy*GameConfig.DT)
 

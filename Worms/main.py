@@ -7,8 +7,9 @@ from engine.inputs import Input
 
 from game_state import *
 from game_config import *
+import content.projectile
 
-def get_inputs():
+def get_inputs(game_state):
         next_move = Input()
         keys = pygame.key.get_pressed()
         # Camera
@@ -34,7 +35,11 @@ def get_inputs():
             next_move.player_move_left = True
         if keys[pygame.K_RIGHT]:
             next_move.player_move_right = True
-
+        
+        #player action
+        if keys[pygame.K_t]:
+            game_state.worm.pull(Projectile(game_state.worm.x, game_state.worm.y, 20, 20, 3))
+            
         return next_move
 
 # Boucle principale
@@ -52,7 +57,7 @@ def game_loop(window):
             if event.type == pygame.QUIT :
                 quitting = True
         
-        inputs = get_inputs()
+        inputs = get_inputs(game_state)
 
         # A remplacer -> Fond noir
         window.fill((25, 25, 25))

@@ -94,10 +94,11 @@ class GameState :
         # Collisions
         if self.map.is_touching_map(self.worm):
             self.collision_worm = True
-            collision_point_temp = self.map.collision_point_with(self.worm)
+            collision_point_temp, collision_point_on_image = self.map.collision_point_with(self.worm)
             # print(collision_point_temp)
             if collision_point_temp != None:
                 self.collision_point = (collision_point_temp[0] * self.camera.zoom, collision_point_temp[1] * self.camera.zoom)
+                self.worm.has_touched_map(collision_point_temp, collision_point_on_image, self.map.image.get_noise_image())
         else:
             self.collision_worm = False
             self.collision_point = (0, 0)

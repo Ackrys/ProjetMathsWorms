@@ -27,6 +27,19 @@ class Worm(Entity) :
             self.vy = 0
         else:
             self.vy = self.vy+GameConfig.GRAVITY*GameConfig.DT*self.mass
+    
+    def has_touched_map(self, point, point_image, map_image):
+        # self.rect.x et self.rect.y -> position du ver
+        # self.rect.width et self.rect.height -> dimensions du ver
+        # point[0] et point[1] -> position du point de collision (le plus en haut à gauche)
+        # point_image[0] et point_image[1] -> position du point de collision dans l'image
+
+        # map_image -> Image de la map
+        # map_image.get_at(point) -> Couleur du pixel point
+        #       point -> (x, y)
+        # map_image.get_height() -> Hauteur de l'image de la map
+        # map_image.get_width() -> Largeur de l'image de la map
+        pass
 
     def draw(self, screen):
         super().draw(screen)

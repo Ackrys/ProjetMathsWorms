@@ -43,10 +43,10 @@ class Projectile(Entity):
         self.rect.x = x + self.x0 / divide
         self.rect.y = -(y) + self.y0 / divide
 
-        print("===========")
-        print(self.rect.x - self.x0)
-        print(self.rect.y - self.y0)
-        print(speed)
+        # print("===========")
+        # print(self.rect.x - self.x0)
+        # print(self.rect.y - self.y0)
+        # print(speed)
  
 
     def pull(self):

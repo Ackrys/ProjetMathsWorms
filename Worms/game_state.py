@@ -23,6 +23,8 @@ class GameState :
     def __init__(self):
         # Scene
         self.scene = Scene()
+        self.collision_worm = False
+        self.collision_point = (0, 0)
 
         # Map
         self.map = Map()
@@ -89,14 +91,22 @@ class GameState :
             self.projectile = Projectile(self.worm.rect.x, self.worm.rect.y, 20, 20, 4.9)
             self.scene.add_object(self.projectile)
 
-        # if self.map.isTouchingMap(self.worm):
-        #     print("Collision")
-        # else:
-        #     print("No collision")
+        # Collisions
+        if self.map.is_touching_map(self.worm):
+            self.collision_worm = True
+            collision_point_temp = self.map.collision_point_with(self.worm)
+            # print(collision_point_temp)
+            if collision_point_temp != None:
+                self.collision_point = (collision_point_temp[0] * self.camera.zoom, collision_point_temp[1] * self.camera.zoom)
+        else:
+            self.collision_worm = False
+            self.collision_point = (0, 0)
 
         # Advance state
         self.scene.advance_state()
 
     def draw(self, screen):
         self.scene.draw(screen, self.camera)
+        if self.collision_worm:
+            pygame.draw.rect(screen, (255, 0, 0), (self.collision_point[0] + self.camera.x, self.collision_point[1] + self.camera.y, 4, 4))
 

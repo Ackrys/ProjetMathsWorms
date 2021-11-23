@@ -29,8 +29,19 @@ class Map(pygame.sprite.Sprite) :
         pass
         # self.image.advance_state()
 
-    def isTouchingMap(self, object):
+    def is_touching_map(self, object):
         return pygame.sprite.collide_mask(self, object)
+
+    def collision_point_with(self, object):
+        map_image = self.image.get_noise_image()
+        for w in range(object.rect.width):
+            for h in range(object.rect.height):
+                pos_x = object.rect.x + w
+                pos_y = object.rect.y - self.rect.y + h
+                if pos_x > 0 and pos_y > 0 and pos_x < map_image.get_width() and pos_y < map_image.get_height():
+                    if map_image.get_at((pos_x, pos_y))[0] == 0:
+                        return (object.rect.x+w, object.rect.y+h)
+        return None
 
 
     # Display methods

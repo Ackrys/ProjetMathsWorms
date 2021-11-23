@@ -42,6 +42,7 @@ class Entity(pygame.sprite.Sprite) :
             "idle": Animation([image])
         }
 
+        self.image = self.animations["idle"].get_current_image()
         self.image_display = self.animations["idle"].get_current_image()
         self.mask = self.animations["idle"].get_current_mask()
 
@@ -61,6 +62,7 @@ class Entity(pygame.sprite.Sprite) :
 
         # Animation
         self.animations[self.current_animation].advance_state()
+        self.image = self.animations[self.current_animation].get_current_image()
 
 
     # Display methods

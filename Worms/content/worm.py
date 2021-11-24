@@ -39,6 +39,9 @@ class Worm(Entity) :
         #       point -> (x, y)
         # map_image.get_height() -> Hauteur de l'image de la map
         # map_image.get_width() -> Largeur de l'image de la map
+
+        
+
         pass
 
     def draw(self, screen):

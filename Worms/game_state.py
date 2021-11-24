@@ -54,22 +54,17 @@ class GameState :
         GameConfig.WINDOW_GAME_W = GameConfig.WINDOW_W * self.camera.zoom
 
         # Camera movement
-        camera_moved = False
         if inputs.camera_up:
             self.camera.move_by(0, GameConfig.CAMERA_MOVE_SPEED)
-            camera_moved = True
         if inputs.camera_down:
             self.camera.move_by(0, -GameConfig.CAMERA_MOVE_SPEED)
-            camera_moved = True
         if inputs.camera_left:
             self.camera.move_by(GameConfig.CAMERA_MOVE_SPEED, 0)
-            camera_moved = True
         if inputs.camera_right:
             self.camera.move_by(-GameConfig.CAMERA_MOVE_SPEED, 0)
-            camera_moved = True
 
         # Player movement
-        """if inputs.player_move_left:
+        if inputs.player_move_left:
             self.worm.vx = -GameConfig.WORM_SPEED
             self.worm.set_animation("walk_left")
         if inputs.player_move_right:
@@ -77,23 +72,6 @@ class GameState :
             self.worm.set_animation("walk_right")
         if not inputs.player_move_left and not inputs.player_move_right:
             self.worm.vx = 0
-            self.worm.set_animation("idle")
-        """
-        if inputs.player_move_left:
-            self.worm.vx = -GameConfig.WORM_SPEED
-            self.worm.set_animation("walk_left")
-        if inputs.player_move_right:
-            self.worm.vx = GameConfig.WORM_SPEED
-            self.worm.set_animation("walk_right")
-        if inputs.player_move_up:
-            self.worm.vy = -GameConfig.WORM_SPEED
-            self.worm.set_animation("walk_right")
-        if inputs.player_move_down:
-            self.worm.vy = GameConfig.WORM_SPEED
-            self.worm.set_animation("walk_right")
-        if not inputs.player_move_left and not inputs.player_move_right and not inputs.player_move_up and not inputs.player_move_down :
-            self.worm.vx = 0
-            self.worm.vy = 0
             self.worm.set_animation("idle")
 
         # Player action
@@ -107,14 +85,15 @@ class GameState :
             self.projectile=None
 
         # Collisions
-        if self.map.is_touching_map(self.worm):
+        collision_points = self.map.collision_point_with(self.worm)
+        if len(collision_points) > 0:
             self.collision_worm = True
-            collision_points = self.map.collision_point_with(self.worm)
             self.collision_point = collision_points
             # print(collision_point_temp)
             if len(collision_points) > 0 :
-                self.worm.has_touched_map(collision_points, self.map.image.get_noise_image())
+                self.worm.has_touched_map(collision_points)
         else:
+            self.worm.points = []
             self.collision_worm = False
             self.collision_point = (0, 0)
 

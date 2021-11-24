@@ -19,6 +19,12 @@ class Worm(Entity) :
         self.define_animation("walk_right", Animation(["R1.png", "R2.png", "R3.png", "R4.png", "R5.png", "R6.png", "R7.png", "R8.png", "R9.png"]))
         self.define_animation("walk_left", Animation(["L1.png", "L2.png", "L3.png", "L4.png", "L5.png", "L6.png", "L7.png", "L8.png", "L9.png"]))
 
+        self.points = []
+
+        self.touch_down = False
+        self.touch_left = False
+        self.touch_right = False
+
     def advance_state(self):
         super().advance_state()
 
@@ -26,23 +32,32 @@ class Worm(Entity) :
         if self.rect.bottom >= GameConfig.WINDOW_H:
             self.vy = 0
         else:
-            self.vy = self.vy+GameConfig.PLAYER_GRAVITY*GameConfig.DT*self.mass
+            if len(self.points) < 1:
+                self.vy = self.vy+GameConfig.GRAVITY*GameConfig.DT*self.mass
+            else :
+                print("------------------------------------")
+                print(self.rect.y)
+                print(self.rect.x)
+                self.touch_right = False
+                self.touch_left = False
+                for i in range(len(self.points)):
+                    self.touch_down = False
+                    if self.rect.y >= self.points[i][1]:
+                        self.vy = 0
+                        self.touch_down = True
+                    if self.rect.x >= self.points[i][0] + 10 :
+                        self.touch_right = True
+                if self.touch_right == True :
+                    self.rect.y -= 10
+                print(self.rect.y)
+                print(self.rect.x)
+                print("down")
+                print(self.touch_down)
+                print("right")
+                print(self.touch_right)
 
-    def has_touched_map(self, points, map_image):
-        # self.rect.x et self.rect.y -> position du ver
-        # self.rect.width et self.rect.height -> dimensions du ver
-        # point[0] et point[1] -> position du point de collision (le plus en haut à gauche)
-        # point_image[0] et point_image[1] -> position du point de collision dans l'image
-
-        # map_image -> Image de la map
-        # map_image.get_at(point) -> Couleur du pixel point
-        #       point -> (x, y)
-        # map_image.get_height() -> Hauteur de l'image de la map
-        # map_image.get_width() -> Largeur de l'image de la map
-
-
-
-        pass
+    def has_touched_map(self, points):
+        self.points = points
 
     def draw(self, screen):
         super().draw(screen)

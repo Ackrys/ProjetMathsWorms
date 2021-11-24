@@ -49,10 +49,6 @@ class Projectile(Entity):
         self.rect.x = x + self.x0
         self.rect.y = -(y) + self.y0
 
-    
-
-    
- 
 
     def pull(self):        
         self.trajectoire((round(time.time() * 1000) - self.v0) / 100, self.mass)

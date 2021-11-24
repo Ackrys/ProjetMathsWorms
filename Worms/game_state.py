@@ -76,7 +76,7 @@ class GameState :
 
         # Player action
         if inputs.player_shoot and self.projectile==None:
-            self.projectile = Projectile(self.worm.rect.x, self.worm.rect.y, 20, 20, 5,self.worm.rect_display.x,self.worm.rect_display.y)
+            self.projectile = Projectile(self.worm, 20, 20, 5)
             self.scene.add_object(self.projectile)
         
         #projectile_colision

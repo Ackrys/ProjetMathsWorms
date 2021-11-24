@@ -19,11 +19,11 @@ class Projectile(Entity):
     y0 = 0
 
 
-    def __init__(self, x, y, height, width, mass,player_x,player_y):
+    def __init__(self, worm, height, width, mass):
         self.cursor_x, self.cursor_y = pygame.mouse.get_pos()
-        super().__init__(x, y, height, width, mass, "missile.png")
-        self.x0 = player_x
-        self.y0 = player_y
+        super().__init__(worm.rect.x + worm.rect.width/2 - width/2, worm.rect.y + worm.rect.height/2 - height/2, height, width, mass, "missile.png")
+        self.x0 = worm.rect.x
+        self.y0 = worm.rect.y
         self.r = abs(math.sqrt((self.rect.x - self.cursor_x)** 2 + (self.rect.y - self.cursor_y)**2))
         print(self.r)
         #self.oppo = abs(self.cursor_y + self.y0)
@@ -58,5 +58,5 @@ class Projectile(Entity):
         self.trajectoire((round(time.time() * 1000) - self.v0) / 100, self.mass)
 
     def out_window(self):
-        if self.rect.x>GameConfig.WINDOW_GAME_W or self.rect.y>GameConfig.WINDOW_GAME_H:
+        if self.rect.x>GameConfig.WINDOW_W or self.rect.y>GameConfig.WINDOW_H:
             return True

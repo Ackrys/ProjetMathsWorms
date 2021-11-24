@@ -39,22 +39,25 @@ class Worm(Entity) :
                 print(self.rect.y)
                 print(self.rect.x)
                 self.touch_right = False
+                self.touch_down = False
                 self.touch_left = False
                 for i in range(len(self.points)):
-                    self.touch_down = False
                     if self.rect.y >= self.points[i][1]:
                         self.vy = 0
                         self.touch_down = True
-                    if self.rect.x >= self.points[i][0] + 10 :
-                        self.touch_right = True
-                if self.touch_right == True :
-                    self.rect.y -= 10
+                    if self.rect.x >= self.points[i][0] :
+                        self.touch_left = True
+                if self.touch_left == True :
+                    self.vx = 0
                 print(self.rect.y)
                 print(self.rect.x)
                 print("down")
                 print(self.touch_down)
+                print("left")
+                print(self.touch_left)
                 print("right")
                 print(self.touch_right)
+
 
     def has_touched_map(self, points):
         self.points = points

@@ -70,6 +70,10 @@ class GameState :
         if inputs.player_move_right:
             self.worm.vx = GameConfig.WORM_SPEED
             self.worm.set_animation("walk_right")
+        if inputs.player_move_up and self.worm.touch_down == True:
+            print(self.worm.touch_down)
+            self.worm.vy = -GameConfig.JUMP_FORCE
+            self.worm.set_animation("walk_left")
         if not inputs.player_move_left and not inputs.player_move_right:
             self.worm.vx = 0
             self.worm.set_animation("idle")
@@ -78,7 +82,7 @@ class GameState :
         if inputs.player_shoot and self.projectile==None:
             self.projectile = Projectile(self.worm, 20, 20, 5)
             self.scene.add_object(self.projectile)
-        
+
         #projectile_colision
         if self.projectile!=None and (self.map.is_touching_map(self.projectile) or self.projectile.out_window()==True):
             self.scene.remove_object(self.projectile)

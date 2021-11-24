@@ -26,8 +26,8 @@ class Worm(Entity) :
         if self.rect.bottom >= GameConfig.WINDOW_H:
             self.vy = 0
         else:
-            self.vy = self.vy+GameConfig.GRAVITY*GameConfig.DT*self.mass
-    
+            self.vy = self.vy+GameConfig.PLAYER_GRAVITY*GameConfig.DT*self.mass
+
     def has_touched_map(self, point, point_image, map_image):
         # self.rect.x et self.rect.y -> position du ver
         # self.rect.width et self.rect.height -> dimensions du ver
@@ -40,7 +40,7 @@ class Worm(Entity) :
         # map_image.get_height() -> Hauteur de l'image de la map
         # map_image.get_width() -> Largeur de l'image de la map
 
-        
+
 
         pass
 

@@ -37,7 +37,7 @@ class GameState :
         self.worm = Worm(300, 150, 64, 64, 1)
 
         #self.background = Decor(0, 0, GameConfig.WINDOW_W, GameConfig.WINDOW_H, "background.png")
-        
+
         #self.worm_2 = Decor(450, 600, 64, 64, "standing.png")
         #self.worm_2.define_animation("right", Animation(["R1.png", "R2.png", "R3.png", "R4.png", "R5.png", "R6.png", "R7.png", "R8.png", "R9.png"]))
         #self.worm_2.set_animation("right")
@@ -76,7 +76,7 @@ class GameState :
             self.scene.applyOffset(self.camera.x, self.camera.y)
 
         # Player movement
-        if inputs.player_move_left:
+        """if inputs.player_move_left:
             self.worm.vx = -GameConfig.WORM_SPEED
             self.worm.set_animation("walk_left")
         if inputs.player_move_right:
@@ -84,6 +84,23 @@ class GameState :
             self.worm.set_animation("walk_right")
         if not inputs.player_move_left and not inputs.player_move_right:
             self.worm.vx = 0
+            self.worm.set_animation("idle")
+        """
+        if inputs.player_move_left:
+            self.worm.vx = -GameConfig.WORM_SPEED
+            self.worm.set_animation("walk_left")
+        if inputs.player_move_right:
+            self.worm.vx = GameConfig.WORM_SPEED
+            self.worm.set_animation("walk_right")
+        if inputs.player_move_up:
+            self.worm.vy = -GameConfig.WORM_SPEED
+            self.worm.set_animation("walk_right")
+        if inputs.player_move_down:
+            self.worm.vy = GameConfig.WORM_SPEED
+            self.worm.set_animation("walk_right")
+        if not inputs.player_move_left and not inputs.player_move_right and not inputs.player_move_up and not inputs.player_move_down :
+            self.worm.vx = 0
+            self.worm.vy = 0
             self.worm.set_animation("idle")
 
         # Player action
@@ -110,4 +127,3 @@ class GameState :
         self.scene.draw(screen, self.camera)
         if self.collision_worm:
             pygame.draw.rect(screen, (255, 0, 0), (self.collision_point[0] + self.camera.x, self.collision_point[1] + self.camera.y, 4, 4))
-

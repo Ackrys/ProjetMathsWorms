@@ -12,7 +12,7 @@ import time
 
 class Projectile(Entity):
 
-    v0 = round(time.time() * 1000)
+    v0 = 0
     g = 9.7639
     pi = 3.141592654
     x0 = 0
@@ -23,7 +23,11 @@ class Projectile(Entity):
         super().__init__(x, y, height, width, mass, "missile.png")
         self.x0 = x
         self.y0 = y
-        self.cur_x, self.cur_y = pygame.mouse.get_pos()
+        self.cursor_x, self.cursor_y = pygame.mouse.get_pos()
+        self.hypotenuse = abs(math.sqrt((self.rect.x - self.cursor_x)** 2 + (self.rect.y - self.cursor_y)**2))
+        self.oppo = abs(self.cursor_y - 600)
+        self.angle = math.asin(self.oppo / self.hypotenuse)
+        self.v0 = round(time.time() * 1000)
 
     def draw(self, screen):
         super().draw(screen)
@@ -34,10 +38,9 @@ class Projectile(Entity):
         super().advance_state()
 
     def trajectoire(self, t, mass):
-        a = (45 - 44 * self.pi / 180)
         speed = mass * self.g
-        x = math.cos(a)*speed*t
-        y = -0.5*self.pi*t**2+math.sin(a)*speed*t+self.rect.height
+        x = math.cos(self.angle)*speed*t
+        y = -0.5*self.pi*t**2+math.sin(self.angle)*speed*t+self.rect.height
         
         divide = 1
         self.rect.x = x + self.x0 / divide
@@ -49,10 +52,5 @@ class Projectile(Entity):
         # print(speed)
  
 
-    def pull(self):
-        hypotenuse = math.sqrt((self.rect.x - self.cur_x)**2 + (self.rect.y - self.cur_y)**2)
-        oppo = self.cur_y - 600
-        angle = math.sin(oppo / hypotenuse)
-        
-        # while (self.rect.x < GameConfig.WINDOW_GAME_W and self.rect.y < GameConfig.WINDOW_GAME_H):
-        self.trajectoire((round(time.time() * 1000) - self.v0) / 1000, self.mass)
+    def pull(self):        
+        self.trajectoire((round(time.time() * 1000) - self.v0) / 100, self.mass)

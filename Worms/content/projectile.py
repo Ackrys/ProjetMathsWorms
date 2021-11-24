@@ -56,3 +56,7 @@ class Projectile(Entity):
 
     def pull(self):        
         self.trajectoire((round(time.time() * 1000) - self.v0) / 100, self.mass)
+
+    def out_window(self):
+        if self.rect.x>GameConfig.WINDOW_GAME_W or self.rect.y>GameConfig.WINDOW_GAME_H:
+            return True

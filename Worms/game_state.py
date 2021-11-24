@@ -102,7 +102,7 @@ class GameState :
             self.scene.add_object(self.projectile)
         
         #projectile_colision
-        if self.projectile!=None and self.map.is_touching_map(self.projectile):
+        if self.projectile!=None and (self.map.is_touching_map(self.projectile) or self.projectile.out_window()==True):
             self.scene.remove_object(self.projectile)
             self.projectile=None
 

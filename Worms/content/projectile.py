@@ -27,14 +27,8 @@ class Projectile(Entity):
         self.x0 = worm.rect_display.x + worm.rect_display.width/2 - self.rect_display.width/2
         self.y0 = worm.rect_display.y + worm.rect_display.height/2 - self.rect_display.height/2
         self.r = abs(math.sqrt((self.rect.x - self.cursor_x)** 2 + (self.rect.y - self.cursor_y)**2))
-        print(self.r)
-        #self.oppo = abs(self.cursor_y + self.y0)
-        #print(self.oppo)
-        #self.angle = math.asin(self.oppo / self.hypotenuse)
+        print("r : ", self.r)
         self.v0 = round(time.time() * 1000)
-        #if (x >= self.cursor_x):
-            #self.angle = - (self.angle + 3)
-        #print(self.angle)
 
     def draw(self, screen):
         super().draw(screen)
@@ -45,9 +39,12 @@ class Projectile(Entity):
 
     def trajectoire(self, t, mass):
         speed = mass * self.g
-        x = (self.cursor_x-self.x0)/self.r*speed*t
-        y = -0.5*self.pi*t**2-(self.cursor_y-self.y0)/self.r*speed*t+self.rect.height
+        x = (self.cursor_x-self.x0) / self.r * speed * t
+        y = -0.5 * self.pi * t**2 - (self.cursor_y-self.y0) / self.r * speed * t + self.rect.height
         
+        print("x : ", x)
+        print("y : ", y)
+
         self.rect.x = x + self.pos_x
         self.rect.y = -(y) + self.pos_y
 
@@ -56,5 +53,5 @@ class Projectile(Entity):
         self.trajectoire((round(time.time() * 1000) - self.v0) / 100, self.mass)
 
     def out_window(self):
-        if self.rect.x>GameConfig.WINDOW_W or self.rect.y>GameConfig.WINDOW_H:
+        if self.rect.x > GameConfig.WINDOW_W or self.rect.y > GameConfig.WINDOW_H:
             return True

@@ -19,13 +19,15 @@ class Projectile(Entity):
     y0 = 0
 
 
-    def __init__(self, x, y, height, width, mass):
+    def __init__(self, x, y, height, width, mass,player_x,player_y):
         super().__init__(x, y, height, width, mass, "missile.png")
-        self.x0 = x
-        self.y0 = y
+        self.x0 = player_x
+        self.y0 = player_y
         self.cursor_x, self.cursor_y = pygame.mouse.get_pos()
         self.hypotenuse = abs(math.sqrt((self.rect.x - self.cursor_x)** 2 + (self.rect.y - self.cursor_y)**2))
-        self.oppo = abs(self.cursor_y - 600)
+        print(self.hypotenuse)
+        self.oppo = abs(self.cursor_y - self.rect.y)
+        print(self.oppo)
         self.angle = math.asin(self.oppo / self.hypotenuse)
         self.v0 = round(time.time() * 1000)
 

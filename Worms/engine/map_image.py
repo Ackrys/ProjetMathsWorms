@@ -133,7 +133,7 @@ class MapImage :
         last_island = None
         for i in range(0, len(white_islands) - 1):
             # Calculate distance between islands
-            if white_islands[i][0][1] > self.noise_image.get_height() - self.noise_image.get_height() // 2: # Island y > half of the map
+            if white_islands[i][0][1] > self.noise_image.get_height() - self.noise_image.get_height() * 0.60: # Island y > half of the map
                 if last_island :
                     actual_island = white_islands[i]
                     points_to_draw = self.pixels_between_points(last_island[0], actual_island[0])
@@ -170,6 +170,9 @@ class MapImage :
 
         # Invert colors
         self.invert_colors()
+
+        # Add height to the map
+        self.add_height()
 
         # Transparent the map
         self.transparent_map()
@@ -297,6 +300,22 @@ class MapImage :
                     self.noise_image.set_at((w,h), self.color_black)
                 else:
                     self.noise_image.set_at((w,h), self.color_white)
+
+    def add_height(self, offset_height=100):
+        self.noise_image_new = pygame.Surface( (self.noise_image.get_width(), self.noise_image.get_height() + offset_height) )
+        # Copy old image content to new image
+        self.noise_image_new.blit(self.noise_image, (0,0))
+        # For each pixel at the bottom of the map
+        for w in range(0, self.noise_image.get_width()):
+            if self.noise_image.get_at((w, self.noise_image.get_height() - 1))[0] < 120: # Black pixel
+                # Add a fix height
+                for h in range(self.noise_image.get_height(), self.noise_image.get_height() + offset_height):
+                    self.noise_image_new.set_at((w,h), self.color_black)
+
+        self.noise_image = self.noise_image_new.copy()
+
+        self.rect.height += offset_height
+        self.rect.y -= offset_height
 
     def transparent_map(self):
         for w in range(0, self.noise_image.get_width()):

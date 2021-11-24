@@ -119,11 +119,11 @@ class GameState :
         # Collisions
         if self.map.is_touching_map(self.worm):
             self.collision_worm = True
-            collision_point_temp, collision_point_on_image = self.map.collision_point_with(self.worm)
+            collision_points = self.map.collision_point_with(self.worm)
+            self.collision_point = collision_points
             # print(collision_point_temp)
-            if collision_point_temp != None:
-                self.collision_point = (collision_point_temp[0] * self.camera.zoom, collision_point_temp[1] * self.camera.zoom)
-                self.worm.has_touched_map(collision_point_temp, collision_point_on_image, self.map.image.get_noise_image())
+            if len(collision_points) > 0 :
+                self.worm.has_touched_map(collision_points, self.map.image.get_noise_image())
         else:
             self.collision_worm = False
             self.collision_point = (0, 0)
@@ -133,5 +133,8 @@ class GameState :
 
     def draw(self, screen):
         self.scene.draw(screen, self.camera)
-        if self.collision_worm:
-            pygame.draw.rect(screen, (255, 0, 0), (self.collision_point[0] + self.camera.x, self.collision_point[1] + self.camera.y, 4, 4))
+        if self.collision_worm :
+            for pixel in self.collision_point:
+                x = pixel[0] + self.camera.x
+                y = pixel[1] + self.camera.y + self.map.image.rect.y
+                pygame.draw.rect(screen, (255, 0, 0), (x * self.camera.zoom, y * self.camera.zoom, 1, 1))

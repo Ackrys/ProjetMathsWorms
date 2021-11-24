@@ -32,6 +32,7 @@ class Map(pygame.sprite.Sprite) :
         return pygame.sprite.collide_mask(self, object)
 
     def collision_point_with(self, object):
+        collision_pixels = []
         map_image = self.image.get_noise_image()
         for w in range(object.rect.width):
             for h in range(object.rect.height):
@@ -39,8 +40,8 @@ class Map(pygame.sprite.Sprite) :
                 pos_y = object.rect.y - self.rect.y + h
                 if pos_x > 0 and pos_y > 0 and pos_x < map_image.get_width() and pos_y < map_image.get_height():
                     if map_image.get_at((pos_x, pos_y))[3] > 120:
-                        return (object.rect.x+w, object.rect.y+h), (pos_x, pos_y)
-        return None, None
+                        collision_pixels.append((pos_x, pos_y))
+        return collision_pixels
 
 
     # Display methods

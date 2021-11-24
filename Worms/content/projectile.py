@@ -22,8 +22,8 @@ class Projectile(Entity):
     def __init__(self, x, y, height, width, mass,player_x,player_y):
         self.cursor_x, self.cursor_y = pygame.mouse.get_pos()
         super().__init__(x, y, height, width, mass, "missile.png")
-        self.x0 = player_x + 20
-        self.y0 = player_y + 40
+        self.x0 = player_x
+        self.y0 = player_y
         self.hypotenuse = abs(math.sqrt((self.rect.x - self.cursor_x)** 2 + (self.rect.y - self.cursor_y)**2))
         print(self.hypotenuse)
         self.oppo = abs(self.cursor_y - self.rect.y)

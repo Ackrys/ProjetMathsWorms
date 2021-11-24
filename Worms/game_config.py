@@ -17,7 +17,7 @@ class GameConfig :
     # Dimensions fenêtre de jeu
     WINDOW_GAME_H = WINDOW_H
     WINDOW_GAME_W = WINDOW_W
-    
+
     # Caméra
     CAMERA_ZOOM_SPEED = 0.01
     CAMERA_MOVE_SPEED = 4
@@ -27,6 +27,7 @@ class GameConfig :
 
     # Gravité
     GRAVITY = 9.81
+    PLAYER_GRAVITY = 0
 
 
 

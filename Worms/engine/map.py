@@ -39,7 +39,7 @@ class Map(pygame.sprite.Sprite) :
                 pos_x = object.rect.x + w
                 pos_y = object.rect.y - self.rect.y + h
                 if pos_x > 0 and pos_y > 0 and pos_x < map_image.get_width() and pos_y < map_image.get_height():
-                    if map_image.get_at((pos_x, pos_y))[3] > 120:
+                    if map_image.get_at((pos_x, pos_y))[0] < 120:
                         collision_pixels.append((pos_x, pos_y))
         return collision_pixels
 

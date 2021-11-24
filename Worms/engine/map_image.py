@@ -35,7 +35,7 @@ class MapImage :
 
         self.color_white = (255, 255, 255)
         self.color_black = (0, 0, 0)
-        self.color_transparent = (255, 255, 255, 0)
+        self.color_transparent = (255, 255, 255)
         
         self.generate_map()
         self.noise_image_display = self.noise_image.copy()

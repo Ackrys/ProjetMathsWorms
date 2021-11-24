@@ -27,7 +27,6 @@ class GameConfig :
 
     # Gravité
     GRAVITY = 9.81
-    PLAYER_GRAVITY = 0
 
 
 

@@ -53,12 +53,6 @@ class GameState :
         GameConfig.WINDOW_GAME_H = GameConfig.WINDOW_H * self.camera.zoom
         GameConfig.WINDOW_GAME_W = GameConfig.WINDOW_W * self.camera.zoom
 
-        # Camera zoom
-        if inputs.camera_zoom_in:
-            self.camera.zoom_by(-GameConfig.CAMERA_ZOOM_SPEED)
-        if inputs.camera_zoom_out:
-            self.camera.zoom_by(GameConfig.CAMERA_ZOOM_SPEED)
-
         # Camera movement
         camera_moved = False
         if inputs.camera_up:
@@ -73,10 +67,6 @@ class GameState :
         if inputs.camera_right:
             self.camera.move_by(-GameConfig.CAMERA_MOVE_SPEED, 0)
             camera_moved = True
-
-        # Camera follow
-        if camera_moved:
-            self.scene.applyOffset(self.camera.x, self.camera.y)
 
         # Player movement
         """if inputs.player_move_left:
@@ -127,6 +117,15 @@ class GameState :
         else:
             self.collision_worm = False
             self.collision_point = (0, 0)
+
+        # Camera zoom
+        if inputs.camera_zoom_in:
+            self.camera.zoom_by(-GameConfig.CAMERA_ZOOM_SPEED)
+        if inputs.camera_zoom_out:
+            self.camera.zoom_by(GameConfig.CAMERA_ZOOM_SPEED)
+
+        # Camera follow
+        self.scene.applyOffset(self.camera.x, self.camera.y)
 
         # Advance state
         self.scene.advance_state()

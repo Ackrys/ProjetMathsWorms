@@ -88,7 +88,7 @@ class GameState :
 
         # Player action
         if inputs.player_shoot:
-            self.projectile = Projectile(self.worm.rect.x, self.worm.rect.y, 20, 20, 4.9)
+            self.projectile = Projectile(self.worm.rect.x, self.worm.rect.y, 20, 20, 5)
             self.scene.add_object(self.projectile)
 
         # Collisions

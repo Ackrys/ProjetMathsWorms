@@ -19,11 +19,13 @@ class Projectile(Entity):
     y0 = 0
 
 
-    def __init__(self, x, y, height, width, mass,player_x,player_y):
+    def __init__(self, worm, height, width, mass):
         self.cursor_x, self.cursor_y = pygame.mouse.get_pos()
-        super().__init__(x, y, height, width, mass, "missile.png")
-        self.x0 = player_x
-        self.y0 = player_y
+        self.pos_x = worm.rect.x + worm.rect.width/2 - width/2
+        self.pos_y = worm.rect.y + worm.rect.height/2 - height/2
+        super().__init__(self.pos_x, self.pos_y, height, width, mass, "missile.png")
+        self.x0 = worm.rect_display.x + worm.rect_display.width/2 - self.rect_display.width/2
+        self.y0 = worm.rect_display.y + worm.rect_display.height/2 - self.rect_display.height/2
         self.r = abs(math.sqrt((self.rect.x - self.cursor_x)** 2 + (self.rect.y - self.cursor_y)**2))
         print(self.r)
         #self.oppo = abs(self.cursor_y + self.y0)
@@ -46,17 +48,13 @@ class Projectile(Entity):
         x = (self.cursor_x-self.x0)/self.r*speed*t
         y = -0.5*self.pi*t**2-(self.cursor_y-self.y0)/self.r*speed*t+self.rect.height
         
-        self.rect.x = x + self.x0
-        self.rect.y = -(y) + self.y0
+        self.rect.x = x + self.pos_x
+        self.rect.y = -(y) + self.pos_y
 
-    
-
-    
- 
 
     def pull(self):        
         self.trajectoire((round(time.time() * 1000) - self.v0) / 100, self.mass)
 
     def out_window(self):
-        if self.rect.x>GameConfig.WINDOW_GAME_W or self.rect.y>GameConfig.WINDOW_GAME_H:
+        if self.rect.x>GameConfig.WINDOW_W or self.rect.y>GameConfig.WINDOW_H:
             return True

@@ -45,6 +45,9 @@ class GameState :
         self.scene.add_object(self.worm)
         #self.scene.add_object(self.worm_2)
 
+        # Projectile
+        self.projectile = None
+
     def advance_state(self, inputs):
         # Window Resize
         GameConfig.WINDOW_GAME_H = GameConfig.WINDOW_H * self.camera.zoom
@@ -104,9 +107,14 @@ class GameState :
             self.worm.set_animation("idle")
 
         # Player action
-        if inputs.player_shoot:
+        if inputs.player_shoot and self.projectile==None:
             self.projectile = Projectile(self.worm.rect.x, self.worm.rect.y, 20, 20, 5)
             self.scene.add_object(self.projectile)
+        
+        #projectile_colision
+        if self.projectile!=None and self.map.is_touching_map(self.projectile):
+            self.scene.remove_object(self.projectile)
+            self.projectile=None
 
         # Collisions
         if self.map.is_touching_map(self.worm):

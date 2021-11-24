@@ -24,7 +24,6 @@ class Map(pygame.sprite.Sprite) :
 
 
     # Advance State
-
     def advance_state(self):
         pass
         # self.image.advance_state()

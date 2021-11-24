@@ -44,7 +44,7 @@ class Projectile(Entity):
     def trajectoire(self, t, mass):
         speed = mass * self.g
         x = (self.cursor_x-self.x0)/self.r*speed*t
-        y = -0.5*self.pi*t**2+(self.cursor_y-self.y0)/self.r*speed*t+self.rect.height
+        y = -0.5*self.pi*t**2-(self.cursor_y-self.y0)/self.r*speed*t+self.rect.height
         
         self.rect.x = x + self.x0
         self.rect.y = -(y) + self.y0

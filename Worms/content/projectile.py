@@ -24,15 +24,15 @@ class Projectile(Entity):
         super().__init__(x, y, height, width, mass, "missile.png")
         self.x0 = player_x
         self.y0 = player_y
-        self.hypotenuse = abs(math.sqrt((self.rect.x - self.cursor_x)** 2 + (self.rect.y - self.cursor_y)**2))
-        print(self.hypotenuse)
-        self.oppo = abs(self.cursor_y - self.rect.y)
-        print(self.oppo)
-        self.angle = math.asin(self.oppo / self.hypotenuse)
+        self.r = abs(math.sqrt((self.rect.x - self.cursor_x)** 2 + (self.rect.y - self.cursor_y)**2))
+        print(self.r)
+        #self.oppo = abs(self.cursor_y + self.y0)
+        #print(self.oppo)
+        #self.angle = math.asin(self.oppo / self.hypotenuse)
         self.v0 = round(time.time() * 1000)
-        if (x >= self.cursor_x):
-            self.angle = - (self.angle + 3)
-        print(self.angle)
+        #if (x >= self.cursor_x):
+            #self.angle = - (self.angle + 3)
+        #print(self.angle)
 
     def draw(self, screen):
         super().draw(screen)
@@ -43,8 +43,8 @@ class Projectile(Entity):
 
     def trajectoire(self, t, mass):
         speed = mass * self.g
-        x = math.cos(self.angle)*speed*t
-        y = -0.5*self.pi*t**2+math.sin(self.angle)*speed*t+self.rect.height
+        x = (self.cursor_x-self.x0)/self.r*speed*t
+        y = -0.5*self.pi*t**2+(self.cursor_y-self.y0)/self.r*speed*t+self.rect.height
         
         self.rect.x = x + self.x0
         self.rect.y = -(y) + self.y0

@@ -14,13 +14,14 @@ class Projectile(Entity):
 
     v0 = 0
     g = 9.7639
-    pi = 3.141592654
     x0 = 0
     y0 = 0
 
-
-    def __init__(self, worm, height, width, mass, camera):
-        self.cursor_x, self.cursor_y = pygame.mouse.get_pos()
+    def __init__(self, worm, height, width, mass, pre_def_cursor_x, pre_def_cursor_y, camera):
+        if pre_def_cursor_x != -1:
+            self.cursor_x, self.cursor_y = pre_def_cursor_x, pre_def_cursor_y
+        else:
+            self.cursor_x, self.cursor_y = pygame.mouse.get_pos()
         self.pos_x = worm.rect.x + worm.rect.width/2 - width/2
         self.pos_y = worm.rect.y + worm.rect.height/2 - height/2
         super().__init__(self.pos_x, self.pos_y, height, width, mass, "missile.png")
@@ -29,13 +30,7 @@ class Projectile(Entity):
         self.x0 += camera.x
         self.y0 += camera.y
         self.r = abs(math.sqrt((self.rect.x - self.cursor_x)** 2 + (self.rect.y - self.cursor_y)**2))
-        #self.oppo = abs(self.cursor_y + self.y0)
-        #print(self.oppo)
-        #self.angle = math.asin(self.oppo / self.hypotenuse)
         self.v0 = round(time.time() * 1000)
-        #if (x >= self.cursor_x):
-            #self.angle = - (self.angle + 3)
-        #print(self.angle)
 
     def draw(self, screen):
         super().draw(screen)
@@ -47,7 +42,7 @@ class Projectile(Entity):
     def trajectoire(self, t, mass):
         speed = mass * self.g
         x = (self.cursor_x-self.x0)/self.r*speed*t
-        y = -0.5*self.pi*t**2-(self.cursor_y-self.y0)/self.r*speed*t+self.rect.height
+        y = -0.5*GameConfig().PI*t**2-(self.cursor_y-self.y0)/self.r*speed*t+self.rect.height
         
         self.rect.x = x + self.pos_x
         self.rect.y = -(y) + self.pos_y
@@ -57,5 +52,5 @@ class Projectile(Entity):
         self.trajectoire((round(time.time() * 1000) - self.v0) / 100, self.mass)
 
     def out_window(self):
-        if self.rect.x>GameConfig.WINDOW_W or self.rect.y>GameConfig.WINDOW_H:
+        if self.rect.x > GameConfig.WINDOW_W or self.rect.y > GameConfig.WINDOW_H:
             return True

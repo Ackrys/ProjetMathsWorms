@@ -10,6 +10,8 @@ import os
 class GameConfig :
     ASSET_FOLDER = os.path.join('Worms', 'assets')
 
+    PI = 3.14
+
     # Dimensions fenêtre
     WINDOW_H = 640
     WINDOW_W = 960
@@ -39,6 +41,9 @@ class GameConfig :
 
     WORM_HP = 100
 
+    # Projectile
+    MASS_PROJ = 5
+    GRAVITY = 9.81
 
     def init():
         pass

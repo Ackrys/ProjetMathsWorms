@@ -42,12 +42,12 @@ class GameState :
         self.team_red = []
 
         self.team_blue.append(Worm(100, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map))
-        self.team_blue.append(Worm(200, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map))
-        self.team_blue.append(Worm(300, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map))
+        # self.team_blue.append(Worm(200, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map))
+        # self.team_blue.append(Worm(300, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map))
 
         self.team_red.append(Worm(400, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map))
-        self.team_red.append(Worm(500, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map))
-        self.team_red.append(Worm(600, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map))
+        # self.team_red.append(Worm(500, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map))
+        # self.team_red.append(Worm(600, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map))
 
         self.actual_team = "BLUE"
         self.actual_worm = self.team_blue[0]
@@ -129,10 +129,10 @@ class GameState :
 
         # Player action
         if inputs.player_shoot and self.projectile == None:
-            self.projectile = Projectile(self.actual_worm, 20, 20, 5, self.camera)
+            self.projectile = Projectile(self.actual_worm, 20, 20, GameConfig.MASS_PROJ, -1, -1, self.camera)
             self.scene.add_object(self.projectile)
 
-    # Worm managemen
+    # Worm management
     def handle_worm_collision(self, worm):
         collision_points = self.map.collision_point_with(worm)
         if len(collision_points) > 0:
@@ -151,21 +151,26 @@ class GameState :
         if self.actual_worm == self.team_blue[0]:
             self.actual_worm = self.team_red[0]
             self.actual_team = "RED"
+            print("Tour Red")
         elif self.actual_worm == self.team_red[0]:
-            self.actual_worm = self.team_blue[1]
-            self.actual_team = "BLUE"
-        elif self.actual_worm == self.team_blue[1]:
-            self.actual_worm = self.team_red[1]
-            self.actual_team = "RED"
-        elif self.actual_worm == self.team_red[1]:
-            self.actual_worm = self.team_blue[2]
-            self.actual_team = "BLUE"
-        elif self.actual_worm == self.team_blue[2]:
-            self.actual_worm = self.team_red[2]
-            self.actual_team = "RED"
-        elif self.actual_worm == self.team_red[2]:
             self.actual_worm = self.team_blue[0]
             self.actual_team = "BLUE"
+            print("Tour Blue")
+        # elif self.actual_worm == self.team_blue[1]:
+        #     self.actual_worm = self.team_red[1]
+        #     self.actual_team = "RED"
+        # elif self.actual_worm == self.team_red[1]:
+        #     self.actual_worm = self.team_blue[2]
+        #     self.actual_team = "BLUE"
+        # elif self.actual_worm == self.team_blue[2]:
+        #     self.actual_worm = self.team_red[2]
+        #     self.actual_team = "RED"
+        # elif self.actual_worm == self.team_red[2]:
+        #     self.actual_worm = self.team_blue[0]
+        #     self.actual_team = "BLUE"
+        # Le worm qui joue est ennemi
+        # if self.actual_team == "RED":
+        self.actual_worm.worm_brain(self.team_blue[0], self.camera, self.scene)
         
 
     # Display

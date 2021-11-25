@@ -5,6 +5,7 @@
 # import pygame
 from content.projectile import Projectile
 from game_config import *
+from game_state import *
 from engine.animation import Animation
 from engine.entity import Entity
 
@@ -94,7 +95,8 @@ class Worm(Entity) :
         super().draw(screen)
 
     def get_cursor_position(self, enemy):
-        cursor_x = enemy.rect.x - self.rect.x
+        # print("enemy x : ", enemy.rect.x)
+        # print("worm x : ", self.rect.x)
         speed = GameConfig.MASS_PROJ * GameConfig.GRAVITY
         temp_worm_x = self.rect.x + self.rect.width/2 - self.rect.width/2
         temp_worm_y = self.rect.y + self.rect.height/2 - self.rect.height/2
@@ -102,28 +104,41 @@ class Worm(Entity) :
         enemy_x = enemy.rect.x + enemy.rect.width/2 - enemy.rect.width/2
         enemy_y = enemy.rect.y + enemy.rect.height/2 - enemy.rect.height/2
 
-        projectile_x = temp_worm_x
-        projectile_y = temp_worm_y
+        projectile_x = 0
+        projectile_y = 0
 
         cursor_y = 0
         point_found = False
-        while cursor_y > enemy.rect.y and point_found == False:
-            racine = abs(math.sqrt((temp_worm_x - cursor_x)** 2 + (temp_worm_y - cursor_y)**2))
-
-            t = 0
-            while projectile_y > enemy_y and point_found == False:
-                projectile_x = (cursor_x - self.rect.x) / racine * speed * t
-                projectile_y = -0.5 * GameConfig().PI * t**2 - (self.cursor_y - self.rect.y) / racine * speed * t + enemy.rect.height
-                t += 1
-                if projectile_x == enemy_x and projectile_y == enemy_y:
-                    point_found = True
+        cursor_x = 0
+        while cursor_x < GameConfig.WINDOW_GAME_W and point_found == False:
+            cursor_x += 1
             
-            cursor_y += 1
+            while cursor_y < enemy_y and point_found == False:
+                racine = abs(math.sqrt((temp_worm_x - cursor_x)** 2 + (temp_worm_y - cursor_y)**2))
+                t = 0
+                while projectile_y < enemy_y and point_found == False:
+                    projectile_x = abs((cursor_x - temp_worm_x)) / racine * speed * t
+                    projectile_y = abs(-0.5 * GameConfig().PI * t**2 - abs((cursor_y - temp_worm_y)) / racine * speed * t + 20)
+ 
 
-        return projectile_x, projectile_y
+                    if projectile_x == enemy_x and projectile_y == enemy_y:
+                        point_found = True
+                        print("Trajectoire trouvé ", point_found)
+                    t += 1
+
+                    print(cursor_x)
+                    print(cursor_y)
+                print("Cur avant" , cursor_y)
+                cursor_y += 1
+                projectile_x = 0
+                projectile_y = 0
+                print("Cur après" , cursor_y)
+        return cursor_x, cursor_y
 
     def worm_brain(self, ennemy, camera):
-        print("IA running")
         cursor_x, cursor_y = self.get_cursor_position(ennemy)
+        print("cursor postion ", cursor_x, " | ", cursor_y)
         new_projectile = Projectile(self, 20, 20, GameConfig.MASS_PROJ, cursor_x, cursor_y, camera)
+        # print("IA x : ", cursor_x)
+        # print("IA y : ", cursor_y)
         return new_projectile

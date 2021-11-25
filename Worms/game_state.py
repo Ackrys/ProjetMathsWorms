@@ -150,16 +150,19 @@ class GameState :
         self.actual_worm.set_animation("idle")
         if self.actual_worm == self.team_blue[0]:
             self.actual_worm = self.team_red[0]
-            self.actual_team = "RED"
+            self.actual_enemy = self.team_blue[0]
             # IA
-            new_projectile = self.actual_worm.worm_brain(self.team_blue[0], self.camera)
+            new_projectile = self.actual_worm.worm_brain(self.actual_enemy, self.camera)
             self.projectile = new_projectile
             self.scene.add_object(new_projectile)
+            self.actual_team = "RED"
             print("Tour Red")
         elif self.actual_worm == self.team_red[0]:
             self.actual_worm = self.team_blue[0]
+            self.actual_enemy = self.team_red[0]
             self.actual_team = "BLUE"
             print("Tour Blue")
+        
         # elif self.actual_worm == self.team_blue[1]:
         #     self.actual_worm = self.team_red[1]
         #     self.actual_team = "RED"

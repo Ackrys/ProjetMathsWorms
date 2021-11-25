@@ -35,10 +35,12 @@ class MapImage :
 
         self.color_white = (255, 255, 255)
         self.color_black = (0, 0, 0)
-        self.color_transparent = (255, 255, 255)
+        self.color_transparent = (255, 255, 255, 0)
         
         self.generate_map()
         self.noise_image_display = self.noise_image.copy()
+
+        self.noise_image_transparent = self.transparent_map(self.noise_image.copy())
 
     # Methods
 
@@ -46,7 +48,7 @@ class MapImage :
         return self.noise_image
 
     def get_mask(self):
-        return pygame.mask.from_surface(self.noise_image)
+        return pygame.mask.from_surface(self.noise_image_transparent)
 
     # Display methods
     def applyZoom(self, zoom):
@@ -175,7 +177,7 @@ class MapImage :
         self.add_height()
 
         # Transparent the map
-        self.transparent_map()
+        # self.transparent_map()
 
 
     # - Image manipulation
@@ -317,11 +319,12 @@ class MapImage :
         self.rect.height += offset_height
         self.rect.y -= offset_height
 
-    def transparent_map(self):
-        for w in range(0, self.noise_image.get_width()):
-            for h in range(0, self.noise_image.get_height()):
-                if self.noise_image.get_at((w,h))[0] > 100:
-                    self.noise_image.set_at((w,h), self.color_transparent)
+    def transparent_map(self, map_image):
+        for w in range(0, map_image.get_width()):
+            for h in range(0, map_image.get_height()):
+                if map_image.get_at((w,h))[0] > 100:
+                    map_image.set_at((w,h), self.color_transparent)
+        return map_image
 
 
 

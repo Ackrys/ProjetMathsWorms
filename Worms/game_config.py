@@ -32,7 +32,12 @@ class GameConfig :
 
     # Worm
     WORM_SPEED = 10
-    JUMP_FORCE = 30
+    WORM_JUMP_FORCE = 30
+
+    WORM_HEIGHT = 64
+    WORM_WIDTH = 64
+
+    WORM_HP = 100
 
 
     def init():

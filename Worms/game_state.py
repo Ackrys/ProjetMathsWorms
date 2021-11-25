@@ -151,6 +151,10 @@ class GameState :
         if self.actual_worm == self.team_blue[0]:
             self.actual_worm = self.team_red[0]
             self.actual_team = "RED"
+            # IA
+            new_projectile = self.actual_worm.worm_brain(self.team_blue[0], self.camera)
+            self.projectile = new_projectile
+            self.scene.add_object(new_projectile)
             print("Tour Red")
         elif self.actual_worm == self.team_red[0]:
             self.actual_worm = self.team_blue[0]
@@ -170,7 +174,6 @@ class GameState :
         #     self.actual_team = "BLUE"
         # Le worm qui joue est ennemi
         # if self.actual_team == "RED":
-        self.actual_worm.worm_brain(self.team_blue[0], self.camera, self.scene)
         
 
     # Display

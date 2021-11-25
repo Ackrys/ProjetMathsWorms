@@ -122,8 +122,8 @@ class Worm(Entity) :
 
         return projectile_x, projectile_y
 
-    def worm_brain(self, ennemy, camera, scene):
+    def worm_brain(self, ennemy, camera):
         print("IA running")
         cursor_x, cursor_y = self.get_cursor_position(ennemy)
         new_projectile = Projectile(self, 20, 20, GameConfig.MASS_PROJ, cursor_x, cursor_y, camera)
-        scene.add_object(new_projectile)
+        return new_projectile

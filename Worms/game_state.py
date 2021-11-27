@@ -70,7 +70,8 @@ class GameState :
         self.handle_inputs(inputs)
 
         # Projectile Collision
-        if self.projectile != None and (self.map.is_touching_map(self.projectile) or self.projectile.out_window()==True):
+        if self.projectile != None and (self.map.is_touching_map(self.projectile) or self.projectile.out_window()):
+            self.handle_damages()
             self.scene.remove_object(self.projectile)
             self.projectile=None
             self.next_worm()
@@ -162,6 +163,9 @@ class GameState :
             self.actual_enemy = self.team_red[0]
             self.actual_team = "BLUE"
             print("Tour Blue")
+
+        # if self.actual_worm == None:
+            # self.next_worm()
         
         # elif self.actual_worm == self.team_blue[1]:
         #     self.actual_worm = self.team_red[1]
@@ -178,6 +182,29 @@ class GameState :
         # Le worm qui joue est ennemi
         # if self.actual_team == "RED":
         
+    def handle_damages(self):
+        for worm in self.team_blue:
+            distance = self.scene.distance_between_objects(self.projectile, worm)
+            if distance < 120:
+                damages = self.projectile.damage / (distance / 50)
+                if distance < 50:
+                    damages = self.projectile.damage
+
+                if worm.take_damages(damages):
+                    self.scene.remove_object(worm)
+                    self.team_blue[self.team_blue.index(worm)] = None
+                    break
+        for worm in self.team_red:
+            distance = self.scene.distance_between_objects(self.projectile, worm)
+            if distance < 120:
+                damages = self.projectile.damage / (distance / 50)
+                if distance < 50:
+                    damages = self.projectile.damage
+
+                if worm.take_damages(damages):
+                    self.scene.remove_object(worm)
+                    self.team_red[self.team_red.index(worm)] = None
+                    break
 
     # Display
     def draw(self, screen):

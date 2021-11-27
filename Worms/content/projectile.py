@@ -16,6 +16,7 @@ class Projectile(Entity):
     g = 9.7639
     x0 = 0
     y0 = 0
+    damage = 70
 
     def __init__(self, worm, height, width, mass, pre_def_cursor_x, pre_def_cursor_y, camera):
         if pre_def_cursor_x != -1:

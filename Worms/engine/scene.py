@@ -4,6 +4,7 @@
 
 # Import des modules
 import pygame
+import math
 from game_config import *
 
 class Scene :
@@ -64,3 +65,7 @@ class Scene :
     def areColliding(self, obj1, obj2):
         return pygame.sprite.collide_mask(obj1, obj2)
     
+    def distance_between_objects(self, obj1, obj2):
+        x1, y1 = obj1.rect.center
+        x2, y2 = obj2.rect.center
+        return math.sqrt((x1-x2)**2+(y1-y2)**2)

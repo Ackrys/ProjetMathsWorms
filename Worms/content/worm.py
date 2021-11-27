@@ -30,6 +30,7 @@ class Worm(Entity) :
 
         self.will_touch_map = False
 
+        self.max_hp = GameConfig.WORM_HP
         self.hp = GameConfig.WORM_HP
 
     def advance_state(self):
@@ -93,6 +94,10 @@ class Worm(Entity) :
 
     def draw(self, screen):
         super().draw(screen)
+        # Draw HP Bar
+        bar_width = 50
+        pygame.draw.rect(screen, (255, 0, 0), (self.rect_display.x + self.rect_display.width // 2 - bar_width // 2, self.rect_display.y - 5, bar_width, 5))
+        pygame.draw.rect(screen, (0, 255, 0), (self.rect_display.x + self.rect_display.width // 2 - bar_width // 2, self.rect_display.y - 5, bar_width * self.hp / self.max_hp, 5))
 
     def get_cursor_position(self, enemy):
         # print("enemy x : ", enemy.rect.x)
@@ -142,3 +147,10 @@ class Worm(Entity) :
         # print("IA x : ", cursor_x)
         # print("IA y : ", cursor_y)
         return new_projectile
+
+    def take_damages(self, damages):
+        self.hp -= damages
+        if self.hp <= 0:
+            return True
+        else:
+            return False

@@ -225,3 +225,5 @@ class GameState :
             x_projection_2 *= self.camera.zoom
             y_projection_2 *= self.camera.zoom
             pygame.draw.line(screen, (255, 0, 0), (x_projection + self.camera.x, y_projection + self.camera.y), (x_projection_2 + self.camera.x, y_projection_2 + self.camera.y), 1)
+
+ 

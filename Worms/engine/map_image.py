@@ -33,14 +33,20 @@ class MapImage :
         self.row_state_max = 8
         self.row_state = []
 
-        self.color_white = (255, 255, 255)
-        self.color_black = (0, 0, 0)
+        self.color_white = GameConfig.COLOR_WHITE
+        self.color_black = GameConfig.COLOR_BLACK
         self.color_transparent = (255, 255, 255, 0)
+
+        self.color_style_ground = GameConfig.COLOR_GROUND
+        self.color_style_sky = GameConfig.COLOR_SKY
         
         self.generate_map()
-        self.noise_image_display = self.noise_image.copy()
 
         self.noise_image_transparent = self.transparent_map(self.noise_image.copy())
+
+        self.noise_image_display_origin = self.noise_image.copy()
+        self.color_map()
+        self.noise_image_display = self.noise_image.copy()
 
     # Methods
 
@@ -55,7 +61,7 @@ class MapImage :
         # Resize
         self.rect_display.height = self.rect.height * zoom
         self.rect_display.width = self.rect.width * zoom
-        self.noise_image_display = pygame.transform.scale(self.noise_image, (
+        self.noise_image_display = pygame.transform.scale(self.noise_image_display_origin, (
             self.noise_image.get_width() * zoom,
             self.noise_image.get_height() * zoom,
         )
@@ -175,9 +181,6 @@ class MapImage :
 
         # Add height to the map
         self.add_height()
-
-        # Transparent the map
-        # self.transparent_map()
 
 
     # - Image manipulation
@@ -326,7 +329,13 @@ class MapImage :
                     map_image.set_at((w,h), self.color_transparent)
         return map_image
 
-
+    def color_map(self):
+        for w in range(0, self.noise_image_display_origin.get_width()):
+            for h in range(0, self.noise_image_display_origin.get_height()):
+                if self.noise_image_display_origin.get_at((w,h))[0] > 120: # White pixel
+                    self.noise_image_display_origin.set_at((w,h), self.color_style_sky)
+                else:
+                    self.noise_image_display_origin.set_at((w,h), self.color_style_ground)
 
     # Noise generation
 

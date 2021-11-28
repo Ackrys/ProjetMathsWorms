@@ -45,6 +45,13 @@ class GameConfig :
     MASS_PROJ = 5
     GRAVITY = 9.81
 
+
+    # Color
+    COLOR_BLACK = (0, 0, 0)
+    COLOR_WHITE = (255, 255, 255)
+    COLOR_GROUND = (126, 70, 60)
+    COLOR_SKY = (100, 220, 250)
+
     def init():
         pass
 

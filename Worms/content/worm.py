@@ -40,9 +40,9 @@ class Worm(Entity) :
         super().advance_state()
 
         # Gravity
-        if len(self.points) < 1:
+        if len(self.points) < 1: # No collision with map
             self.vy = self.vy+GameConfig.GRAVITY*GameConfig.DT*self.mass
-        else :
+        else : # Collision with map
             self.touch_right = False
             self.touch_down = False
             self.touch_left = False
@@ -86,6 +86,7 @@ class Worm(Entity) :
                 self.vy = 0
                 while self.map.is_touching_map(self):
                     self.rect.y -= 1
+                self.rect.y += 1
 
         # Player limits
         if self.rect.bottom >= GameConfig.WINDOW_H:

@@ -56,6 +56,9 @@ class Projectile(Entity):
         x = math.sin(a)*speed*t
         y = -0.5*GameConfig.GRAVITY*t**2-math.cos(a)*speed*t+self.rect.height
 
+        self.rect.x = x + self.pos_x
+        self.rect.y = -(y) + self.pos_y
+
 
     def pull(self):
         if self.alpha == -1:

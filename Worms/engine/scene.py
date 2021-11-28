@@ -70,8 +70,6 @@ class Scene :
             self.map.applyOffset(x, y)
         for obj in self.objects:
             obj.applyOffset(x, y)
-        for ui in self.ui:
-            ui.applyOffset(x, y)
 
 
     # UI

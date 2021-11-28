@@ -20,16 +20,6 @@ class UI(pygame.sprite.Sprite) :
                     width,
                     height)
 
-        # Display rect
-        self.rect_display = pygame.Rect(x,
-                    y,
-                    width,
-                    height)
-
-        # Offset
-        self.x_offset = 0
-        self.y_offset = 0
-
         # Animation
         self.animations = {
             "idle": Animation([image])
@@ -45,29 +35,12 @@ class UI(pygame.sprite.Sprite) :
     def advance_state(self):
         # Animation
         self.animations[self.current_animation].advance_state()
+        self.image_display = self.animations[self.current_animation].get_current_image()
 
     def is_clicked_on(self, pos):
         return self.rect.collidepoint(pos[0], pos[1])
 
     # Display methods
-    def applyZoom(self, zoom):
-        # Resize
-        self.rect_display.height = self.rect.height * zoom
-        self.rect_display.width = self.rect.width * zoom
-        self.image_display = pygame.transform.scale(self.animations[self.current_animation].get_current_image(), (
-            self.animations[self.current_animation].get_current_image().get_rect().size[0] * zoom,
-            self.animations[self.current_animation].get_current_image().get_rect().size[1] * zoom,
-        )
-        )
-
-        # Move
-        self.rect_display.x = self.rect.x * zoom
-        self.rect_display.y = self.rect.y * zoom
-
-    def applyOffset(self, x, y):
-        self.x_offset = x
-        self.y_offset = y
-
     def draw(self, screen):
         screen.blit(
             self.image_display,

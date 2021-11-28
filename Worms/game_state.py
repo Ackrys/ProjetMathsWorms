@@ -63,7 +63,7 @@ class GameState :
 
         # Projectile
         self.projectile = None
-        self.fake_projectile = FakeProjectile(self.actual_worm, 20, 20, GameConfig.MASS_PROJ, self.camera)
+        self.fake_projectile = None
 
         # Game State Management
         self.state_is_firing = False
@@ -212,6 +212,16 @@ class GameState :
     # Display
     def draw(self, screen):
         self.scene.draw(screen, self.camera)
-        #for i in range(0, 100):
-            #x_projection, y_projection = self.fake_projectile.pull(i)
-            #pygame.draw.rect(screen, (255, 0, 0), (x_projection * self.camera.zoom, y_projection * self.camera.zoom, 1, 1))
+        if self.actual_team == "BLUE":
+            self.draw_projectile_projection(screen)
+
+    def draw_projectile_projection(self, screen):
+        self.fake_projectile = FakeProjectile(self.actual_worm, 20, 20, GameConfig.MASS_PROJ, self.camera)
+        for i in range(0, 200):
+            x_projection, y_projection = self.fake_projectile.pull(i)
+            x_projection_2, y_projection_2 = self.fake_projectile.pull(i + 1)
+            x_projection *= self.camera.zoom
+            y_projection *= self.camera.zoom
+            x_projection_2 *= self.camera.zoom
+            y_projection_2 *= self.camera.zoom
+            pygame.draw.line(screen, (255, 0, 0), (x_projection + self.camera.x, y_projection + self.camera.y), (x_projection_2 + self.camera.x, y_projection_2 + self.camera.y), 1)

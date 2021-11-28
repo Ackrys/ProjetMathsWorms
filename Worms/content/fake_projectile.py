@@ -31,10 +31,10 @@ class FakeProjectile(Entity):
         self.v0 = round(time.time() * 1000)
 
     def draw(self, screen):
-        pass
+        return
 
     def advance_state(self):
-        pass
+        return
 
     def trajectoire(self, t, mass):
         speed_temp = mass * self.g
@@ -46,7 +46,6 @@ class FakeProjectile(Entity):
 
     def pull(self, i):
         x_return, y_return = self.trajectoire((round(time.time() * 1000) - self.v0 + i * 10) / 100, self.mass)
-        print(x_return, y_return)
         return x_return, y_return
 
     def out_window(self):

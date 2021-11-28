@@ -33,6 +33,9 @@ class Worm(Entity) :
         self.max_hp = GameConfig.WORM_HP
         self.hp = GameConfig.WORM_HP
 
+        self.offset_x = 0
+        self.offset_y = 0
+
     def advance_state(self):
         super().advance_state()
 
@@ -88,6 +91,11 @@ class Worm(Entity) :
         if self.rect.bottom >= GameConfig.WINDOW_H:
             self.vy = 0
 
+    # Display methods
+    def applyOffset(self, x, y):
+        super().applyOffset(x, y)
+        self.offset_x = x
+        self.offset_y = y
 
     def has_touched_map(self, points):
         self.points = points
@@ -96,8 +104,10 @@ class Worm(Entity) :
         super().draw(screen)
         # Draw HP Bar
         bar_width = 50
-        pygame.draw.rect(screen, (255, 0, 0), (self.rect_display.x + self.rect_display.width // 2 - bar_width // 2, self.rect_display.y - 5, bar_width, 5))
-        pygame.draw.rect(screen, (0, 255, 0), (self.rect_display.x + self.rect_display.width // 2 - bar_width // 2, self.rect_display.y - 5, bar_width * self.hp / self.max_hp, 5))
+        pos_x = self.rect_display.x + self.rect_display.width // 2 - bar_width // 2
+        pos_y = self.rect_display.y - 5
+        pygame.draw.rect(screen, (255, 0, 0), (pos_x + self.offset_x, pos_y + self.offset_y, bar_width, 5))
+        pygame.draw.rect(screen, (0, 255, 0), (pos_x + self.offset_x, pos_y + self.offset_y, bar_width * self.hp / self.max_hp, 5))
 
     def get_cursor_position(self, enemy):
         # print("enemy x : ", enemy.rect.x)

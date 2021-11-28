@@ -18,11 +18,8 @@ class FakeProjectile(Entity):
     y0 = 0
     damage = 70
 
-    def __init__(self, worm, height, width, mass, pre_def_cursor_x, pre_def_cursor_y, camera):
-        if pre_def_cursor_x != -1:
-            self.cursor_x, self.cursor_y = pre_def_cursor_x, pre_def_cursor_y
-        else:
-            self.cursor_x, self.cursor_y = pygame.mouse.get_pos()
+    def __init__(self, worm, height, width, mass, camera):
+        self.cursor_x, self.cursor_y = pygame.mouse.get_pos()
         self.pos_x = worm.rect.x + worm.rect.width/2 - width/2
         self.pos_y = worm.rect.y + worm.rect.height/2 - height/2
         super().__init__(self.pos_x, self.pos_y, height, width, mass, "missile.png")

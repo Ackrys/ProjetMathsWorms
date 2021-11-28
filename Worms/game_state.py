@@ -63,7 +63,7 @@ class GameState :
 
         # Projectile
         self.projectile = None
-        self.fake_projectile = FakeProjectile(self.actual_worm, 20, 20, GameConfig.MASS_PROJ, 10, 10, self.camera)
+        self.fake_projectile = FakeProjectile(self.actual_worm, 20, 20, GameConfig.MASS_PROJ, self.camera)
 
         # Game State Management
         self.state_is_firing = False

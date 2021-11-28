@@ -12,6 +12,7 @@ from menu_state import *
 from game_config import *
 from content.projectile import *
 
+
 def get_inputs(game_state):
         next_move = Input()
         keys = pygame.key.get_pressed()

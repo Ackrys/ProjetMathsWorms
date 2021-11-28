@@ -9,6 +9,7 @@ import os
 
 class GameConfig :
     ASSET_FOLDER = os.path.join('Worms', 'assets')
+    FONT_FOLDER = os.path.join('Worms', 'fonts')
 
     PI = 3.14
 
@@ -52,8 +53,14 @@ class GameConfig :
     COLOR_GROUND = (126, 70, 60)
     COLOR_SKY = (100, 220, 250)
 
+    # Font
+    FONT = 'ARCADECLASSIC.ttf'
+    FONT_TITLE = None
+    FONT_MAIN = None
+
     def init():
-        pass
+        GameConfig.FONT_TITLE = GameConfig.loadFont(GameConfig.FONT, 150)
+        GameConfig.FONT_MAIN = GameConfig.loadFont(GameConfig.FONT, 40)
 
     # Fonction chargeant une image avec un chemin démarrant au dossier 'assets'
     def loadImage(image_path) :
@@ -65,4 +72,4 @@ class GameConfig :
 
     # Fonction chargeant une font avec un chemin démarrant au dossier 'assets'
     def loadFont(font, size) :
-        return pygame.font.Font(os.path.join(GameConfig.ASSET_FOLDER, font), size)
+        return pygame.font.Font(os.path.join(GameConfig.FONT_FOLDER, font), size)

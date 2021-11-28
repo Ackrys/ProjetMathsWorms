@@ -1,10 +1,13 @@
 # Class Game State
 #       - Correspond à l'état de jeu
 
+# Python Modules
+import time
 
 # Pygame
 import pygame
 from content.projectile import Projectile
+from content.fake_projectile import FakeProjectile
 from engine.map import Map
 
 # Game Config
@@ -60,10 +63,10 @@ class GameState :
 
         # Projectile
         self.projectile = None
+        self.fake_projectile = FakeProjectile(self.actual_worm, 20, 20, GameConfig.MASS_PROJ, 10, 10, self.camera)
 
         # Game State Management
         self.state_is_firing = False
-
 
     # Advance state
     def advance_state(self, inputs):
@@ -209,8 +212,6 @@ class GameState :
     # Display
     def draw(self, screen):
         self.scene.draw(screen, self.camera)
-        #if self.collision_worm :
-        #    for pixel in self.collision_point:
-        #        x = pixel[0] + self.camera.x
-        #        y = pixel[1] + self.camera.y + self.map.image.rect.y
-        #        pygame.draw.rect(screen, (255, 0, 0), (x * self.camera.zoom, y * self.camera.zoom, 1, 1))
+        #for i in range(0, 100):
+            #x_projection, y_projection = self.fake_projectile.pull(i)
+            #pygame.draw.rect(screen, (255, 0, 0), (x_projection * self.camera.zoom, y_projection * self.camera.zoom, 1, 1))

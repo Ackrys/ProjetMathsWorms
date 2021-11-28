@@ -42,9 +42,8 @@ class GameConfig :
     WORM_HP = 100
 
     # Projectile
-    MASS_PROJ = 5
+    MASS_PROJ = 9
     GRAVITY = 9.81
-
 
     # Color
     COLOR_BLACK = (0, 0, 0)

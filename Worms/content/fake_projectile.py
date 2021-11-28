@@ -1,5 +1,5 @@
-# Class Worm
-#       - Correspond à un ver
+# Class Projectile
+#       - Correspond à un projectile
 
 # Import des modules
 import pygame
@@ -12,7 +12,7 @@ import time
 
 class FakeProjectile(Entity):
 
-    v0 = 0
+    t0 = 0
     g = 9.7639
     x0 = 0
     y0 = 0
@@ -28,7 +28,7 @@ class FakeProjectile(Entity):
         self.x0 += camera.x
         self.y0 += camera.y
         self.r = abs(math.sqrt((self.rect.x - self.cursor_x)** 2 + (self.rect.y - self.cursor_y)**2))
-        self.v0 = round(time.time() * 1000)
+        self.t0 = round(time.time() * 1000)
 
     def draw(self, screen):
         return
@@ -37,15 +37,15 @@ class FakeProjectile(Entity):
         return
 
     def trajectoire(self, t, mass):
-        speed_temp = mass * self.g
+        speed_temp = mass * GameConfig.GRAVITY
         x_temp = (self.cursor_x-self.x0)/self.r*speed_temp*t
-        y_temp = -0.5*GameConfig.PI*t**2-(self.cursor_y-self.y0)/self.r*speed_temp*t+self.rect.height
+        y_temp = -0.5*GameConfig.GRAVITY*t**2-(self.cursor_y-self.y0)/self.r*speed_temp*t+self.rect.height
         
         return x_temp + self.pos_x, -(y_temp) + self.pos_y
 
 
     def pull(self, i):
-        x_return, y_return = self.trajectoire((round(time.time() * 1000) - self.v0 + i * 10) / 100, self.mass)
+        x_return, y_return = self.trajectoire((round(time.time() * 1000) - self.t0 + i * 10) / 100, self.mass)
         return x_return, y_return
 
     def out_window(self):

@@ -66,27 +66,28 @@ class Worm(Entity) :
                     max_left_column = i
                     break
 
-            if max_left_column != None and len(columns.get(max_left_column)) > 20:
-                while self.map.is_touching_map(self):
-                    self.rect.x += 1
-
             # Ge the right column nearest to the player
             max_right_column = None
             for i in range(self.rect.x + self.rect.width, self.rect.x + self.rect.width // 2):
                 if columns.get(i) != None:
                     max_right_column = i
                     break
-            
+
+            # Touching right
             if max_right_column != None and len(columns.get(max_right_column)) > 20:
                 while self.map.is_touching_map(self):
                     self.rect.x -= 1
-            
-            
+
+            # Touching left
+            if max_left_column != None and len(columns.get(max_left_column)) > 20:
+                while self.map.is_touching_map(self):
+                    self.rect.x += 1
+
+            # Touching down
             if self.touch_down == True :
                 self.vy = 0
                 while self.map.is_touching_map(self):
                     self.rect.y -= 1
-                self.rect.y += 1
 
         # Player limits
         if self.rect.bottom >= GameConfig.WINDOW_H:

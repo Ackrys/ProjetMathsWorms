@@ -6,17 +6,17 @@ import pygame
 from content.projectile import Projectile
 from content.fake_projectile import FakeProjectile
 from content.worm import Worm
-from engine.map import Map
 
 # Game Config
 from game_config import GameConfig
 
 # Engine
-from engine.decor import *
 from engine.camera import *
 from engine.animation import *
 from engine.scene import *
 from engine.map_image import *
+from engine.map import *
+from engine.ui import *
 
 from content.worm import *
 
@@ -220,6 +220,7 @@ class GameState :
         self.scene.draw(screen, self.camera)
         if self.actual_team == "BLUE":
             self.draw_projectile_projection(screen)
+        self.scene.draw_ui(screen, self.camera)
 
     def draw_projectile_projection(self, screen):
         self.fake_projectile = FakeProjectile(self.actual_worm, 20, 20, GameConfig.MASS_PROJ, self.camera)

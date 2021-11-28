@@ -14,6 +14,8 @@ class Scene :
 
     def __init__(self):
         self.objects = []
+        self.ui = []
+        self.map = None
 
 
     # Objects management
@@ -28,6 +30,14 @@ class Scene :
         # self.map.advance_state()
         for obj in self.objects:
             obj.advance_state()
+
+    # UI management
+
+    def add_ui(self, ui):
+        self.ui.append(ui)
+    
+    def remove_ui(self, ui):
+        self.ui.remove(ui)
     
 
     # Map management
@@ -46,8 +56,9 @@ class Scene :
 
     def draw(self, screen, camera):
         # Draw map
-        self.map.applyZoom(camera.zoom)
-        self.map.draw(screen)
+        if self.map != None:
+            self.map.applyZoom(camera.zoom)
+            self.map.draw(screen)
         
         # Draw objects
         for obj in self.objects:
@@ -55,9 +66,20 @@ class Scene :
             obj.draw(screen)
 
     def applyOffset(self, x, y):
-        self.map.applyOffset(x, y)
+        if self.map != None:
+            self.map.applyOffset(x, y)
         for obj in self.objects:
             obj.applyOffset(x, y)
+        for ui in self.ui:
+            ui.applyOffset(x, y)
+
+
+    # UI
+
+    def draw_ui(self, screen, camera):
+        for ui in self.ui:
+            ui.draw(screen)
+
 
 
     # Collision management

@@ -1,5 +1,5 @@
-# Class Entity
-#       - Correspond à une entité de jeu
+# Class UI
+#       - Correspond à un élément de l'interface utilisateur
 
 
 # Import des modules
@@ -7,7 +7,7 @@ import pygame
 from game_config import *
 from engine.animation import Animation
 
-class Decor(pygame.sprite.Sprite) :
+class UI(pygame.sprite.Sprite) :
 
 
     # Init
@@ -46,6 +46,8 @@ class Decor(pygame.sprite.Sprite) :
         # Animation
         self.animations[self.current_animation].advance_state()
 
+    def is_clicked_on(self, pos):
+        return self.rect.collidepoint(pos[0], pos[1])
 
     # Display methods
     def applyZoom(self, zoom):
@@ -70,8 +72,8 @@ class Decor(pygame.sprite.Sprite) :
         screen.blit(
             self.image_display,
             (
-                self.rect_display.x + self.x_offset, 
-                self.rect_display.y + self.y_offset
+                self.rect.x, 
+                self.rect.y
             )
         )
 

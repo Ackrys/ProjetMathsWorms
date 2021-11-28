@@ -1,13 +1,11 @@
 # Class Game State
 #       - Correspond à l'état de jeu
 
-# Python Modules
-import time
-
 # Pygame
 import pygame
 from content.projectile import Projectile
 from content.fake_projectile import FakeProjectile
+from content.worm import Worm
 from engine.map import Map
 
 # Game Config
@@ -73,7 +71,7 @@ class GameState :
         self.handle_inputs(inputs)
 
         # Projectile Collision
-        if self.projectile != None and (self.map.is_touching_map(self.projectile) or self.projectile.out_window()):
+        if self.projectile != None and (self.map.is_touching_map(self.projectile) or self.projectile.out_window() or self.projectile_collision_with_worm()):
             self.handle_damages()
             self.scene.remove_object(self.projectile)
             self.projectile=None
@@ -208,6 +206,14 @@ class GameState :
                     self.scene.remove_object(worm)
                     self.team_red[self.team_red.index(worm)] = None
                     break
+
+    def projectile_collision_with_worm(self):
+        for worm in self.team_blue:
+            if self.scene.areColliding(self.projectile, worm) and worm != self.actual_worm:
+                return True
+        for worm in self.team_red:
+            if self.scene.areColliding(self.projectile, worm) and worm != self.actual_worm:
+                return True
 
     # Display
     def draw(self, screen):

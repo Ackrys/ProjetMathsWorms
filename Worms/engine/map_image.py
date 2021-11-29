@@ -300,7 +300,6 @@ class MapImage :
 
     # - Map style
     def fill_map(self, all_points_to_draw):
-        print(all_points_to_draw)
         for pixel in all_points_to_draw:
             # Draw a line from the pixel to the bottom of the map
             for y in range(pixel[1], self.noise_image.get_height()):

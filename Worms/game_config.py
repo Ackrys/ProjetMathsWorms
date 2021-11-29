@@ -22,8 +22,8 @@ class GameConfig :
     WINDOW_GAME_W = WINDOW_W
 
     # Caméra
-    CAMERA_ZOOM_SPEED = 0.01
-    CAMERA_MOVE_SPEED = 4
+    CAMERA_ZOOM_SPEED = 0.02
+    CAMERA_MOVE_SPEED = 10
 
     # Constante DeltaTime
     DT = 0.3

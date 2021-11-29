@@ -12,10 +12,15 @@ from engine.entity import Entity
 import math
 class Worm(Entity) :
 
-    def __init__(self, x, y, height, width, mass, map, id):
+    def __init__(self, x, y, height, width, mass, map, id, team):
         super().__init__(x, y, height, width, mass, "standing.png")
 
-        self.define_animation("idle", Animation(["standing.png"]))
+        self.team = team
+
+        if self.team == "BLUE":
+            self.define_animation("idle", Animation(["standing_blue.png"]))
+        else:
+            self.define_animation("idle", Animation(["standing_red.png"]))
         self.define_animation("walk_right", Animation(["R1.png", "R2.png", "R3.png", "R4.png", "R5.png", "R6.png", "R7.png", "R8.png", "R9.png"]))
         self.define_animation("walk_left", Animation(["L1.png", "L2.png", "L3.png", "L4.png", "L5.png", "L6.png", "L7.png", "L8.png", "L9.png"]))
 

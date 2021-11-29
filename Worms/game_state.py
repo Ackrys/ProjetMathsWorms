@@ -42,13 +42,21 @@ class GameState :
         self.team_blue = []
         self.team_red = []
 
-        self.team_blue.append(Worm(100, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 0))
-        self.team_blue.append(Worm(300, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 1))
-        self.team_blue.append(Worm(600, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 2))
+        worm_pos_spawn = 100
+        worm_step = 400
 
-        self.team_red.append(Worm(900, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 0))
-        self.team_red.append(Worm(1200, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 1))
-        self.team_red.append(Worm(1500, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 2))
+        self.team_blue.append(Worm(worm_pos_spawn, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 0, "BLUE"))
+        worm_pos_spawn += worm_step
+        self.team_blue.append(Worm(worm_pos_spawn, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 1, "BLUE"))
+        worm_pos_spawn += worm_step
+        self.team_blue.append(Worm(worm_pos_spawn, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 2, "BLUE"))
+        worm_pos_spawn += worm_step
+
+        self.team_red.append(Worm(worm_pos_spawn, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 0, "RED"))
+        worm_pos_spawn += worm_step
+        self.team_red.append(Worm(worm_pos_spawn, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 1, "RED"))
+        worm_pos_spawn += worm_step
+        self.team_red.append(Worm(worm_pos_spawn, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 2, "RED"))
 
         self.actual_team = "BLUE"
         self.actual_worm = self.team_blue[0]

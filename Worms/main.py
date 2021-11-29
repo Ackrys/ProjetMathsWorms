@@ -9,6 +9,7 @@ from engine.inputs import Input
 
 from game_state import *
 from menu_state import *
+from finish_state import *
 from game_config import *
 from content.projectile import *
 
@@ -110,6 +111,7 @@ def game_loop(window):
     game_state = GameState()
 
     game_over = False
+    winner = None
 
     while not game_over and not quitting : # Boucle de jeu
 
@@ -128,8 +130,9 @@ def game_loop(window):
 
 
         # Fait avancer l'état de jeu
-        game_state.advance_state(inputs)
-
+        winner = game_state.advance_state(inputs)
+        if winner != None :
+            game_over = True
 
 
 
@@ -150,6 +153,60 @@ def game_loop(window):
         # Délai
         pygame.time.delay(20) # 20
 
+    # Créer l'etat de jeu menu
+    finish_state = FinishState(winner)
+
+    display_menu = True
+
+    while display_menu and not quitting: # Boucle de menu
+        
+        # Evenements
+        click = False
+        pos_click = None
+
+        for event in pygame.event.get() :
+            if event.type == pygame.QUIT :
+                quitting = True
+            if pygame.mouse.get_pressed()[0] :
+                click = True
+                pos_click = pygame.mouse.get_pos()
+
+
+
+
+
+        # Fond uni
+        window.fill(GameConfig.COLOR_SKY)
+
+
+
+
+
+        # Avancer le jeu
+        display_menu = finish_state.advance_state(click, pos_click)
+
+
+
+
+
+
+
+        # Afficher le jeu
+        finish_state.draw(window)
+
+
+
+
+
+
+        # Update de l'interface
+        pygame.display.update()
+
+        # Délai
+        # pygame.time.delay(20) # 20
+       
+    return not display_menu
+
 # Configuration et lancement du jeu
 def main() :
     pygame.init()
@@ -162,7 +219,8 @@ def main() :
     GameConfig.init()
 
     # Lancement de la boucle principale de jeu
-    game_loop(window)
+    while game_loop(window):
+        game_loop(window)
 
     pygame.quit()
     quit()

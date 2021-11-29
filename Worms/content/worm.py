@@ -12,7 +12,7 @@ from engine.entity import Entity
 import math
 class Worm(Entity) :
 
-    def __init__(self, x, y, height, width, mass, map):
+    def __init__(self, x, y, height, width, mass, map, id):
         super().__init__(x, y, height, width, mass, "standing.png")
 
         self.define_animation("idle", Animation(["standing.png"]))
@@ -27,6 +27,7 @@ class Worm(Entity) :
         self.touch_right = False
 
         self.is_jumping = False
+        self.is_dead = False
 
         self.will_touch_map = False
 
@@ -35,6 +36,8 @@ class Worm(Entity) :
 
         self.offset_x = 0
         self.offset_y = 0
+
+        self.id = id
 
     def advance_state(self):
         super().advance_state()

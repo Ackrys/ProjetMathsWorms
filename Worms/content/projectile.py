@@ -73,5 +73,5 @@ class Projectile(Entity):
         
 
     def out_window(self):
-        if self.rect.x > GameConfig.WINDOW_W or self.rect.y > GameConfig.WINDOW_H:
+        if self.rect.y > GameConfig.WINDOW_GAME_H:
             return True

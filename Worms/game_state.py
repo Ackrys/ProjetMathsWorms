@@ -43,12 +43,12 @@ class GameState :
         self.team_red = []
 
         self.team_blue.append(Worm(100, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 0))
-        self.team_blue.append(Worm(200, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 1))
-        self.team_blue.append(Worm(300, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 2))
+        self.team_blue.append(Worm(300, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 1))
+        self.team_blue.append(Worm(600, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 2))
 
-        self.team_red.append(Worm(400, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 0))
-        self.team_red.append(Worm(500, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 1))
-        self.team_red.append(Worm(600, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 2))
+        self.team_red.append(Worm(900, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 0))
+        self.team_red.append(Worm(1200, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 1))
+        self.team_red.append(Worm(1500, 100, GameConfig.WORM_WIDTH, GameConfig.WORM_WIDTH, 1, self.map, 2))
 
         self.actual_team = "BLUE"
         self.actual_worm = self.team_blue[0]
@@ -275,4 +275,3 @@ class GameState :
             y_projection_2 *= self.camera.zoom
             pygame.draw.line(screen, (255, 0, 0), (x_projection + self.camera.x, y_projection + self.camera.y), (x_projection_2 + self.camera.x, y_projection_2 + self.camera.y), 1)
 
- 

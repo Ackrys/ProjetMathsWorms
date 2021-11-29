@@ -43,6 +43,8 @@ class Map(pygame.sprite.Sprite) :
                         collision_pixels.append((pos_x, pos_y))
         return collision_pixels
 
+    def explosion_at_pos(self, pos_x, pos_y):
+        self.image.explosion_at_pos(pos_x, pos_y)
 
     # Display methods
     def applyZoom(self, zoom):

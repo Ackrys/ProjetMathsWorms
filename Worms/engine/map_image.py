@@ -50,6 +50,18 @@ class MapImage :
 
     # Methods
 
+    def explosion_at_pos(self, pos_x, pos_y):
+        for w in range(pos_x - GameConfig.DESTRUCTION_PROJ, pos_x + GameConfig.DESTRUCTION_PROJ):
+            for h in range(pos_y - GameConfig.DESTRUCTION_PROJ, pos_y + GameConfig.DESTRUCTION_PROJ):
+                if w > 0 and h > 0 and w < self.noise_image.get_width() and h < self.noise_image.get_height():
+                    self.noise_image.set_at((w,h), self.color_white)
+
+        self.noise_image_transparent = self.transparent_map(self.noise_image.copy())
+
+        self.noise_image_display_origin = self.noise_image.copy()
+        self.color_map()
+        self.noise_image_display = self.noise_image.copy()
+
     def get_noise_image(self):
         return self.noise_image
 

@@ -73,6 +73,7 @@ class GameState :
         # Projectile Collision
         if self.projectile != None and (self.map.is_touching_map(self.projectile) or self.projectile.out_window() or self.projectile_collision_with_worm()):
             self.handle_damages()
+            self.explosion(self.projectile.rect)
             self.scene.remove_object(self.projectile)
             self.projectile=None
             self.next_worm()
@@ -133,6 +134,13 @@ class GameState :
         if inputs.player_shoot and self.projectile == None:
             self.projectile = Projectile(self.actual_worm, 20, 20, GameConfig.MASS_PROJ, -1, self.camera)
             self.scene.add_object(self.projectile)
+
+    def explosion(self, rect):
+        pos_x = rect.x
+        pos_y = rect.y - self.map.rect.y
+        self.map.explosion_at_pos(pos_x, pos_y)
+        self.scene.load_map(self.map)
+
 
     # Worm management
     def handle_worm_collision(self, worm):

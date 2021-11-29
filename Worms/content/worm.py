@@ -125,19 +125,22 @@ class Worm(Entity) :
         print("Objectif enemy x : ", enemy_x)
         print("Objectif enemy y : ", enemy_y)
 
-        projectile_x = 0
-        projectile_y = 0
+        # projectile_x = 0
+        # projectile_y = 0
 
-        cursor_y = 0
-        point_found = False
-        cursor_x = 0
+        # cursor_y = 0
+        # point_found = False
+        # cursor_x = 0
 
 
         a = math.sqrt(speed**2 -1)/(2 * enemy_x)
         
-        b= -(a*(temp_worm_x**2 - enemy_x) + enemy_y - temp_worm_y) / (temp_worm_x - enemy_x)
+        b = -(a*(temp_worm_x**2 - enemy_x) + enemy_y - temp_worm_y) / (temp_worm_x - enemy_x)
 
         c = -a*(enemy_x)**2 - b * enemy_x + enemy_y
+
+        print("temp worm x ", temp_worm_x, "   temp worm y : ", temp_worm_y)
+        print("a : ", a, "b : ", b, "c : ", c)
 
         return a,b,c
 
@@ -178,10 +181,9 @@ class Worm(Entity) :
     def worm_brain(self, ennemy, camera):
         print("---- IA ----")
         a, b, c = self.get_cursor_position(ennemy)
-        # alpha = self.get_cursor_position(ennemy)
-        # cur_x, cur_y = self.get_cursor_position(ennemy)
-        new_projectile = Projectile(self, 20, 20, GameConfig.MASS_PROJ, a, b, c, camera)
-        # new_projectile = Projectile(self, 20, 20, GameConfig.MASS_PROJ, cur_x, cur_y, camera)
+        new_projectile = Projectile(self, 20, 20, GameConfig.MASS_PROJ, a, b, c, camera, ennemy)
+        print("Le projectile arrive ... - x : ", new_projectile.rect.x, ", y : ", new_projectile.rect.y)
+        
         return new_projectile
 
     def take_damages(self, damages):

@@ -18,13 +18,11 @@ class Projectile(Entity):
     damage = 70
 
     # def __init__(self, worm, height, width, mass, cur_x, cur_y, camera):
-    def __init__(self, worm, height, width, mass, a, b, c, camera):
+    def __init__(self, worm, height, width, mass, a, b, c, camera, ennemy):
+        self.ennemy = ennemy
         self.a = a
         self.b = b
         self.c = c
-        # if cur_x != -1:
-        #     self.cursor_x, self.cursor_y = cur_x, cur_y
-        # else:
         self.cursor_x, self.cursor_y = pygame.mouse.get_pos()
 
         self.pos_x = worm.rect.x + worm.rect.width/2 - worm.rect.width/2
@@ -55,11 +53,16 @@ class Projectile(Entity):
         self.rect.y = -(y) + self.pos_y
 
     def trajectoire_IA(self, t):
+        # if self.pos_x > self.ennemy.rect.x:
+        #     x = -(t)
+        # else:
+
         x = t
-        y = self.a*x**2+self.b*x+self.c
+        y = self.a*(x**2)+self.b*x+self.c
 
         self.rect.x = x + self.pos_x
         self.rect.y = -(y) + self.pos_y
+        # print(self.rect.y)
 
     def pull(self):
         if self.a == -1 and self.b == -1 and  self.c == -1:

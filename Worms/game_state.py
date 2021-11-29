@@ -143,7 +143,7 @@ class GameState :
 
             # Player action
             if inputs.player_shoot and self.projectile == None:
-                self.projectile = Projectile(self.actual_worm, 20, 20, GameConfig.MASS_PROJ, -1, -1, -1, self.camera)
+                self.projectile = Projectile(self.actual_worm, 20, 20, GameConfig.MASS_PROJ, -1, -1, -1, self.camera, 0)
                 self.scene.add_object(self.projectile)
 
     def explosion(self, rect):

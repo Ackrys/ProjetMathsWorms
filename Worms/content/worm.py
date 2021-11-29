@@ -18,11 +18,13 @@ class Worm(Entity) :
         self.team = team
 
         if self.team == "BLUE":
-            self.define_animation("idle", Animation(["standing_blue.png"]))
+            self.define_animation("idle", Animation(["bluestanding.png"]))
+            self.define_animation("walk_right", Animation(["blueR1.png", "blueR2.png", "blueR3.png", "blueR4.png", "blueR5.png", "blueR6.png", "blueR7.png", "blueR8.png", "blueR9.png"]))
+            self.define_animation("walk_left", Animation(["blueL1.png", "blueL2.png", "blueL3.png", "blueL4.png", "blueL5.png", "blueL6.png", "blueL7.png", "blueL8.png", "blueL9.png"]))
         else:
-            self.define_animation("idle", Animation(["standing_red.png"]))
-        self.define_animation("walk_right", Animation(["R1.png", "R2.png", "R3.png", "R4.png", "R5.png", "R6.png", "R7.png", "R8.png", "R9.png"]))
-        self.define_animation("walk_left", Animation(["L1.png", "L2.png", "L3.png", "L4.png", "L5.png", "L6.png", "L7.png", "L8.png", "L9.png"]))
+            self.define_animation("idle", Animation(["redstanding.png"]))
+            self.define_animation("walk_right", Animation(["redR1.png", "redR2.png", "redR3.png", "redR4.png", "redR5.png", "redR6.png", "redR7.png", "redR8.png", "redR9.png"]))
+            self.define_animation("walk_left", Animation(["redL1.png", "redL2.png", "redL3.png", "redL4.png", "redL5.png", "redL6.png", "redL7.png", "redL8.png", "redL9.png"]))
 
         self.points = []
         self.map = map

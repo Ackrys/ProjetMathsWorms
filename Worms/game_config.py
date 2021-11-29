@@ -45,6 +45,7 @@ class GameConfig :
     # Projectile
     MASS_PROJ = 9
     GRAVITY = 9.81
+    DESTRUCTION_PROJ = 30
 
     # Color
     COLOR_BLACK = (0, 0, 0)

@@ -151,14 +151,18 @@ class MapImage :
         
         # Link each islands
         last_island = None
+        all_points_to_draw = []
         for i in range(0, len(white_islands) - 1):
             # Calculate distance between islands
             if white_islands[i][0][1] > self.noise_image.get_height() - self.noise_image.get_height() * 0.60: # Island y > half of the map
                 if last_island :
                     actual_island = white_islands[i]
-                    points_to_draw = self.pixels_between_points(last_island[0], actual_island[0])
-                    for pixel in points_to_draw:
-                        self.noise_image.set_at(pixel, (255,0,0))
+                    # Randomize the chance of linking island
+                    if random.randint(0, 100) > 20: # 1 chance sur 5 de foirer le lien
+                        points_to_draw = self.pixels_between_points(last_island[0], actual_island[0])
+                        for pixel in points_to_draw:
+                            self.noise_image.set_at(pixel, (255,0,0))
+                            all_points_to_draw.append(pixel)
                     last_island = actual_island
                 else:
                     last_island = white_islands[i]
@@ -166,6 +170,8 @@ class MapImage :
                 for pixels in white_islands[i]:
                     self.noise_image.set_at(pixels, self.color_black)
 
+        # Fill the map
+        self.fill_map(all_points_to_draw)
 
         # Resize image to fit the screen
         self.noise_image = pygame.transform.smoothscale(self.noise_image, (self.noise_image.get_width() * self.complexity, self.noise_image.get_height() * self.complexity))
@@ -182,17 +188,19 @@ class MapImage :
         # Round color to neareast black/white
         self.round_to_nearest_black_and_white(10)
 
-        # Fill the map
-        self.fill_map()
-
-        # Add black columns to the sides
-        self.add_columns()
-
         # Invert colors
         self.invert_colors()
 
         # Add height to the map
-        self.add_height()
+        # self.add_height()
+
+        # Add black columns to the sides
+        self.add_columns()
+
+        # Resize image to fit the screen
+        self.noise_image = pygame.transform.smoothscale(self.noise_image, (self.noise_image.get_width() * 3, self.noise_image.get_height() * 3))
+        self.rect = pygame.Rect(0, GameConfig.WINDOW_H - self.noise_image.get_height(), self.noise_image.get_width(), self.noise_image.get_height())
+        self.rect_display = self.rect.copy()
 
 
     # - Image manipulation
@@ -291,24 +299,29 @@ class MapImage :
         return pixels
 
     # - Map style
-    def fill_map(self):
+    def fill_map(self, all_points_to_draw):
+        print(all_points_to_draw)
+        for pixel in all_points_to_draw:
+            # Draw a line from the pixel to the bottom of the map
+            for y in range(pixel[1], self.noise_image.get_height()):
+                self.noise_image.set_at((pixel[0],y), self.color_white)
         # For each pixel
-        for w in range(0, self.noise_image.get_width()):
-            for h in range(0, self.noise_image.get_height()):
-                if self.noise_image.get_at((w,h))[0] > 120: # White pixel
-                    # Draw a line from the pixel to the bottom of the map
-                    for y in range(h, self.noise_image.get_height()):
-                        self.noise_image.set_at((w,y), self.color_white)
+        # for w in range(0, self.noise_image.get_width()):
+        #     for h in range(0, self.noise_image.get_height()):
+        #         if self.noise_image.get_at((w,h))[0] > 120: # White pixel
+        #             # Draw a line from the pixel to the bottom of the map
+        #             for y in range(h, self.noise_image.get_height()):
+        #                 self.noise_image.set_at((w,y), self.color_white)
         
     def add_columns(self):
         # Left column
-        for w in range(0, 30):
+        for w in range(0, 50):
             for h in range(0, self.noise_image.get_height()):
-                self.noise_image.set_at((w,h), self.color_black)
+                self.noise_image.set_at((w,h), self.color_white)
         # Right column
-        for w in range(self.noise_image.get_width() - 30, self.noise_image.get_width()):
+        for w in range(self.noise_image.get_width() - 50, self.noise_image.get_width()):
             for h in range(0, self.noise_image.get_height()):
-                self.noise_image.set_at((w,h), self.color_black)
+                self.noise_image.set_at((w,h), self.color_white)
     
     def invert_colors(self):
         for w in range(0, self.noise_image.get_width()):

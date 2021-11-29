@@ -122,21 +122,34 @@ class Worm(Entity) :
         enemy_x = enemy.rect.x + enemy.rect.width/2 - enemy.rect.width/2
         enemy_y = enemy.rect.y + enemy.rect.height/2 - enemy.rect.height/2
 
+        print("Objectif enemy x : ", enemy_x)
+        print("Objectif enemy y : ", enemy_y)
+
         projectile_x = 0
         projectile_y = 0
 
         cursor_y = 0
         point_found = False
         cursor_x = 0
- 
-        for alpha in range(0, 360):
-            rad_alpha = alpha * GameConfig.PI / 180
-            attendu_y = -GameConfig.GRAVITY / 2 * (enemy_y / (speed * math.cos(rad_alpha))) + speed * math.sin(rad_alpha) * enemy_x / math.cos(rad_alpha) * self.rect.height
-            
-            if enemy_y + 10 > attendu_y and enemy_y - 10 < attendu_y:
-                return rad_alpha
 
-    
+
+        a = math.sqrt(speed**2 -1)/(2 * enemy_x)
+        
+        b= -(a*(temp_worm_x**2 - enemy_x) + enemy_y - temp_worm_y) / (temp_worm_x - enemy_x)
+
+        c = -a*(enemy_x)**2 - b * enemy_x + enemy_y
+
+        return a,b,c
+
+        # Ne fonctionne pas
+        # for alpha in range(0, 360):
+        #     rad_alpha = alpha * GameConfig.PI / 180
+        #     attendu_y = -GameConfig.GRAVITY / 2 * (enemy_x / (speed * math.cos(rad_alpha))) + speed * math.sin(rad_alpha) * enemy_x / math.cos(rad_alpha) * self.rect.height
+
+        #     if enemy_y == attendu_y:
+        #         return rad_alpha
+
+        # Fonctionne partiellement
         # while cursor_x < GameConfig.WINDOW_GAME_W and point_found == False:
         #     cursor_x += 1
             
@@ -153,20 +166,22 @@ class Worm(Entity) :
         #                 print("Trajectoire trouvé ", point_found)
         #             t += 1
 
-        #             print(cursor_x)
-        #             print(cursor_y)
-        #         print("Cur avant" , cursor_y)
+        #             # print(cursor_x)
+        #             # print(cursor_y)
+        #         # print("Cur avant" , cursor_y)
         #         cursor_y += 1
         #         projectile_x = 0
         #         projectile_y = 0
-        #         print("Cur après" , cursor_y)
-        return alpha
+        #         # print("Cur après" , cursor_y)
+        # return cursor_x, cursor_y
 
     def worm_brain(self, ennemy, camera):
-        alpha = self.get_cursor_position(ennemy)
-        # cursor_x, cursor_y = self.get_cursor_position(ennemy)
-        # print("cursor postion ", cursor_x, " | ", cursor_y)
-        new_projectile = Projectile(self, 20, 20, GameConfig.MASS_PROJ, alpha, camera)
+        print("---- IA ----")
+        a, b, c = self.get_cursor_position(ennemy)
+        # alpha = self.get_cursor_position(ennemy)
+        # cur_x, cur_y = self.get_cursor_position(ennemy)
+        new_projectile = Projectile(self, 20, 20, GameConfig.MASS_PROJ, a, b, c, camera)
+        # new_projectile = Projectile(self, 20, 20, GameConfig.MASS_PROJ, cur_x, cur_y, camera)
         return new_projectile
 
     def take_damages(self, damages):

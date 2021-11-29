@@ -17,15 +17,19 @@ class Projectile(Entity):
     y0 = 0
     damage = 70
 
-    def __init__(self, worm, height, width, mass, alpha, camera):
-    # def __init__(self, worm, height, width, mass, pre_def_cursor_x, pre_def_cursor_y, camera,team):
-        # if pre_def_cursor_x != -1:
-        #     self.cursor_x, self.cursor_y = pre_def_cursor_x, pre_def_cursor_y
+    # def __init__(self, worm, height, width, mass, cur_x, cur_y, camera):
+    def __init__(self, worm, height, width, mass, a, b, c, camera):
+        self.a = a
+        self.b = b
+        self.c = c
+        # if cur_x != -1:
+        #     self.cursor_x, self.cursor_y = cur_x, cur_y
         # else:
-        self.alpha = alpha
         self.cursor_x, self.cursor_y = pygame.mouse.get_pos()
-        self.pos_x = worm.rect.x + worm.rect.width/2 - width/2
-        self.pos_y = worm.rect.y + worm.rect.height/2 - height/2
+
+        self.pos_x = worm.rect.x + worm.rect.width/2 - worm.rect.width/2
+        self.pos_y = worm.rect.y + worm.rect.height/2 - worm.rect.height/2
+        print("départ : ", self.pos_x, ", ", self.pos_y)
         super().__init__(self.pos_x, self.pos_y, height, width, mass, "missile.png")
         self.x0 = worm.rect_display.x + worm.rect_display.width/2 - self.rect_display.width/2
         self.y0 = worm.rect_display.y + worm.rect_display.height/2 - self.rect_display.height/2
@@ -50,20 +54,18 @@ class Projectile(Entity):
         self.rect.x = x + self.pos_x
         self.rect.y = -(y) + self.pos_y
 
-    def trajectoire_IA(self,t,mass,a):
-        speed = mass * GameConfig.GRAVITY
-        x = math.sin(a)*speed*t
-        y = -0.5*GameConfig.GRAVITY*t**2-math.cos(a)*speed*t+self.rect.height
+    def trajectoire_IA(self, t):
+        x = t
+        y = self.a*x**2+self.b*x+self.c
 
         self.rect.x = x + self.pos_x
         self.rect.y = -(y) + self.pos_y
 
-
     def pull(self):
-        if self.alpha == -1:
+        if self.a == -1 and self.b == -1 and  self.c == -1:
             self.trajectoire((round(time.time() * 1000) - self.t0) / 100, self.mass)
         else:
-            self.trajectoire_IA((round(time.time() * 1000) - self.t0) / 100, self.mass, self.alpha)
+            self.trajectoire_IA((round(time.time() * 1000) - self.t0) / 100)
 
         
 

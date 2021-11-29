@@ -126,12 +126,12 @@ class Worm(Entity) :
         point_found = False
         cursor_x = 0
  
-        for alpha in range(0, 180):
+        for alpha in range(0, 360):
             rad_alpha = alpha * GameConfig.PI / 180
             attendu_y = -GameConfig.GRAVITY / 2 * (enemy_y / (speed * math.cos(rad_alpha))) + speed * math.sin(rad_alpha) * enemy_x / math.cos(rad_alpha) * self.rect.height
             
             if enemy_y + 10 > attendu_y and enemy_y - 10 < attendu_y:
-                return alpha
+                return rad_alpha
 
     
         # while cursor_x < GameConfig.WINDOW_GAME_W and point_found == False:

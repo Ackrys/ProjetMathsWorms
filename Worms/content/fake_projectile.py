@@ -13,7 +13,6 @@ import time
 class FakeProjectile(Entity):
 
     t0 = 0
-    g = 9.7639
     x0 = 0
     y0 = 0
     damage = 70

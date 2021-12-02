@@ -124,8 +124,8 @@ class MapImage :
                 self.noise_image_gen.set_at((w,h),(i,i,i))
 
         # Get random part of the noise
-        noise_x_start = random.randint(0, self.noise_image_gen.get_width() - self.noise_image.get_width())
-        noise_y_start = random.randint(0, self.noise_image_gen.get_height() - self.noise_image.get_height())
+        noise_x_start = 0
+        noise_y_start = 0
         for w in range(noise_x_start, noise_x_start + self.noise_image.get_width()):
             for h in range(noise_y_start, noise_y_start + self.noise_image.get_height()):
                 self.noise_image.set_at((w - noise_x_start, h - noise_y_start), self.noise_image_gen.get_at((w,h)))
@@ -158,7 +158,7 @@ class MapImage :
                 if last_island :
                     actual_island = white_islands[i]
                     # Randomize the chance of linking island
-                    if random.randint(0, 100) > 20: # 1 chance sur 5 de foirer le lien
+                    if i != 2 and i != 8: # 1 chance sur 5 de foirer le lien
                         points_to_draw = self.pixels_between_points(last_island[0], actual_island[0])
                         for pixel in points_to_draw:
                             self.noise_image.set_at(pixel, (255,0,0))
@@ -181,12 +181,12 @@ class MapImage :
         # Round color to neareast black/white
         self.round_to_nearest_black_and_white()
 
-        # Apply delation to image
-        for i in range(0, density):
-            self.delation(thickness)
+        # # Apply delation to image
+        # for i in range(0, density):
+        #     self.delation(thickness)
 
-        # Round color to neareast black/white
-        self.round_to_nearest_black_and_white(10)
+        # # Round color to neareast black/white
+        # self.round_to_nearest_black_and_white(10)
 
         # Invert colors
         self.invert_colors()
@@ -195,7 +195,7 @@ class MapImage :
         # self.add_height()
 
         # Add black columns to the sides
-        self.add_columns()
+        # self.add_columns()
 
         # Resize image to fit the screen
         self.noise_image = pygame.transform.smoothscale(self.noise_image, (self.noise_image.get_width() * 3, self.noise_image.get_height() * 3))

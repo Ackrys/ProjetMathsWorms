@@ -86,8 +86,6 @@ class GameState :
 
         # Projectile Collision
         if self.projectile != None and (self.map.is_touching_map(self.projectile) or self.projectile.out_window() or self.projectile_collision_with_worm()):
-
-            print("arrivé : ", self.projectile.rect.x, ", ", self.projectile.rect.y)
             self.handle_damages()
             self.explosion(self.projectile.rect)
             self.scene.remove_object(self.projectile)

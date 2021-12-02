@@ -2,7 +2,6 @@
 #       - Correspond à un ver
 
 # Import des modules
-# import pygame
 from content.projectile import Projectile
 from game_config import *
 from game_state import *
@@ -121,7 +120,8 @@ class Worm(Entity) :
         pygame.draw.rect(screen, (255, 0, 0), (pos_x + self.offset_x, pos_y + self.offset_y, bar_width, 5))
         pygame.draw.rect(screen, (0, 255, 0), (pos_x + self.offset_x, pos_y + self.offset_y, bar_width * self.hp / self.max_hp, 5))
 
-    def get_cursor_position(self, enemy):
+    # Permet de cacluler les a, b, c qui permettront de calculer la parabole que prendra le projectile
+    def get_var_funct_parab_position(self, enemy):
         speed = GameConfig.MASS_PROJ * GameConfig.GRAVITY
         temp_worm_x = self.rect.x + self.rect.width/2 - self.rect.width/2
         temp_worm_y = self.rect.y + self.rect.height/2 - self.rect.height/2
@@ -129,11 +129,6 @@ class Worm(Entity) :
         enemy_x = enemy.rect.x + enemy.rect.width/2 - enemy.rect.width/2
         enemy_y = enemy.rect.y + enemy.rect.height/2 - enemy.rect.height/2
 
-<<<<<<< Updated upstream
-=======
-        print("Objectif enemy x : ", enemy_x)
-        print("Objectif enemy y : ", enemy_y)
->>>>>>> Stashed changes
 
         a = math.sqrt(speed**2 -1)/(2 * enemy_x)
         
@@ -141,22 +136,13 @@ class Worm(Entity) :
 
         c = -a*(enemy_x)**2 - b * enemy_x + enemy_y
 
-<<<<<<< Updated upstream
         return a,b,c
 
-
-=======
-        print("temp worm x : ", temp_worm_x, "   temp worm y : ", temp_worm_y)
-        print("a : ", a, "b : ", b, "c : ", c)
-
-        return a,b,c
-
->>>>>>> Stashed changes
+    # Actions de l'IA
     def worm_brain(self, ennemy, camera):
-        print("---- IA ----")
-        a, b, c = self.get_cursor_position(ennemy)
+        a, b, c = self.get_var_funct_parab_position(ennemy)
+        # Déclenchement de l'envoie du projectile de l'IA
         new_projectile = Projectile(self, 20, 20, GameConfig.MASS_PROJ, a, b, c, camera, ennemy)
-        print("Le projectile arrive ... - x : ", new_projectile.rect.x, ", y : ", new_projectile.rect.y)
         
         return new_projectile
 

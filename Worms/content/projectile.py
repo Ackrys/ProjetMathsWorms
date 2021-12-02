@@ -53,16 +53,12 @@ class Projectile(Entity):
         self.rect.y = -(y) + self.pos_y
 
     def trajectoire_IA(self, t):
-        # if self.pos_x > self.ennemy.rect.x:
-        #     x = -(t)
-        # else:
 
         x = t
         y = self.a*(x**2)+self.b*x+self.c
 
         self.rect.x = x + self.pos_x
         self.rect.y = -(y) + self.pos_y
-        # print(self.rect.y)
 
     def pull(self):
         if self.a == -1 and self.b == -1 and  self.c == -1:

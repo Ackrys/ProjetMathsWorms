@@ -129,16 +129,6 @@ class Worm(Entity) :
         enemy_x = enemy.rect.x + enemy.rect.width/2 - enemy.rect.width/2
         enemy_y = enemy.rect.y + enemy.rect.height/2 - enemy.rect.height/2
 
-        print("Objectif enemy x : ", enemy_x)
-        print("Objectif enemy y : ", enemy_y)
-
-        # projectile_x = 0
-        # projectile_y = 0
-
-        # cursor_y = 0
-        # point_found = False
-        # cursor_x = 0
-
 
         a = math.sqrt(speed**2 -1)/(2 * enemy_x)
         
@@ -146,44 +136,8 @@ class Worm(Entity) :
 
         c = -a*(enemy_x)**2 - b * enemy_x + enemy_y
 
-        print("temp worm x ", temp_worm_x, "   temp worm y : ", temp_worm_y)
-        print("a : ", a, "b : ", b, "c : ", c)
-
         return a,b,c
 
-        # Ne fonctionne pas
-        # for alpha in range(0, 360):
-        #     rad_alpha = alpha * GameConfig.PI / 180
-        #     attendu_y = -GameConfig.GRAVITY / 2 * (enemy_x / (speed * math.cos(rad_alpha))) + speed * math.sin(rad_alpha) * enemy_x / math.cos(rad_alpha) * self.rect.height
-
-        #     if enemy_y == attendu_y:
-        #         return rad_alpha
-
-        # Fonctionne partiellement
-        # while cursor_x < GameConfig.WINDOW_GAME_W and point_found == False:
-        #     cursor_x += 1
-            
-        #     while cursor_y < enemy_y and point_found == False:
-        #         racine = abs(math.sqrt((temp_worm_x - cursor_x)** 2 + (temp_worm_y - cursor_y)**2))
-        #         t = 0
-        #         while projectile_y < enemy_y and point_found == False:
-        #             projectile_x = abs((cursor_x - temp_worm_x)) / racine * speed * t
-        #             projectile_y = abs(-0.5 * GameConfig().PI * t**2 - abs((cursor_y - temp_worm_y)) / racine * speed * t + 20)
- 
-
-        #             if projectile_x == enemy_x and projectile_y == enemy_y:
-        #                 point_found = True
-        #                 print("Trajectoire trouvé ", point_found)
-        #             t += 1
-
-        #             # print(cursor_x)
-        #             # print(cursor_y)
-        #         # print("Cur avant" , cursor_y)
-        #         cursor_y += 1
-        #         projectile_x = 0
-        #         projectile_y = 0
-        #         # print("Cur après" , cursor_y)
-        # return cursor_x, cursor_y
 
     def worm_brain(self, ennemy, camera):
         print("---- IA ----")

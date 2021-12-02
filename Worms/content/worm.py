@@ -129,16 +129,29 @@ class Worm(Entity) :
         enemy_x = enemy.rect.x + enemy.rect.width/2 - enemy.rect.width/2
         enemy_y = enemy.rect.y + enemy.rect.height/2 - enemy.rect.height/2
 
+<<<<<<< Updated upstream
+=======
+        print("Objectif enemy x : ", enemy_x)
+        print("Objectif enemy y : ", enemy_y)
+>>>>>>> Stashed changes
 
         a = math.sqrt(speed**2 -1)/(2 * enemy_x)
         
-        b = -(a*(temp_worm_x**2 - enemy_x) + enemy_y - temp_worm_y) / (temp_worm_x - enemy_x)
+        b = -(a*(temp_worm_x**2 - enemy_x**2) + enemy_y - temp_worm_y) / (temp_worm_x - enemy_x)
 
         c = -a*(enemy_x)**2 - b * enemy_x + enemy_y
 
+<<<<<<< Updated upstream
         return a,b,c
 
 
+=======
+        print("temp worm x : ", temp_worm_x, "   temp worm y : ", temp_worm_y)
+        print("a : ", a, "b : ", b, "c : ", c)
+
+        return a,b,c
+
+>>>>>>> Stashed changes
     def worm_brain(self, ennemy, camera):
         print("---- IA ----")
         a, b, c = self.get_cursor_position(ennemy)

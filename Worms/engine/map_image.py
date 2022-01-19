@@ -124,8 +124,8 @@ class MapImage :
                 self.noise_image_gen.set_at((w,h),(i,i,i))
 
         # Get random part of the noise
-        noise_x_start = 0
-        noise_y_start = 0
+        noise_x_start = random.randint(0, self.noise_image.get_width())
+        noise_y_start = random.randint(0, self.noise_image.get_height())
         for w in range(noise_x_start, noise_x_start + self.noise_image.get_width()):
             for h in range(noise_y_start, noise_y_start + self.noise_image.get_height()):
                 self.noise_image.set_at((w - noise_x_start, h - noise_y_start), self.noise_image_gen.get_at((w,h)))
@@ -206,7 +206,7 @@ class MapImage :
     # - Image manipulation
     def delation(self, thickness):
         # Apply delation to image
-        self.noise_image = pygame.transform.smoothscale(self.noise_image, (self.noise_image.get_width() / thickness, self.noise_image.get_height() / thickness))
+        self.noise_image = pygame.transform.smoothscale(self.noise_image, (math.ceil(self.noise_image.get_width() / thickness), math.ceil(self.noise_image.get_height() / thickness)))
 
         # Resize the image to original size
         self.noise_image = pygame.transform.smoothscale(self.noise_image, (self.noise_image.get_width() * thickness, self.noise_image.get_height() * thickness))
